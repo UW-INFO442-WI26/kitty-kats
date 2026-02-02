@@ -4,8 +4,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        {/* Left side - Profile */}
+        {/* Left side - Logo and Profile */}
         <div className="navbar-left">
+          <Link to="/" className="nav-link" style={{ fontWeight: 800, fontSize: '1.25rem' }}>Kitty-Kats</Link>
           <Link to="/profile" className="nav-icon-link" title="Profile">
             <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="8" r="4" />
