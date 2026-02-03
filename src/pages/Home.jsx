@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 function Home() {
   return (
     <div className="home-container">
@@ -22,14 +24,14 @@ function Home() {
       </div>
 
       {/* Modules Section - Right Side */}
-      <button className="modules-section">
+      <Link to="/quiz" className="modules-section">
         <div className="modules-content">
           <span className="modules-icon">📚</span>
           <h1 className="section-title">Modules</h1>
           <p className="section-subtitle">Start your learning journey</p>
           <span className="modules-arrow">→</span>
         </div>
-      </button>
+      </Link>
     </div>
   );
 }

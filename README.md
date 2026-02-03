@@ -1,16 +1,63 @@
-# React + Vite
+# Learning Without Stigma
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app providing stigma-free sexual health education for U.S. high school students through interactive quizzes, flashcards, and scenarios.
 
-Currently, two official plugins are available:
+**Available at: https://kitty-kats.web.app/**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## About
 
-## React Compiler
+Learning Without Stigma offers anonymous, judgment-free sexual health education. Students can learn at their own pace, track progress, earn rewards, and access trusted resources—all in a mobile-first experience.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+### Core Learning
+- **6 Interactive Modules** - Comprehensive topics with hover-to-flip cards and progress tracking
+- **Quiz System** - Module-based quizzes with instant feedback
+- **Flashcards** - Shuffle, filter by module, and flip to reveal answers
+- **Search & Glossary** - Keyword search across all content
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### User Experience
+- **Anonymous Learning** - No personal info required to start
+- **Progress Tracking** - Visual progress bars and stats
+- **Mastery Badges** - Earn badges based on quiz scores
+- **Mobile-First** - Optimized for phones and tablets
+
+### Pages
+- **Home** - Welcome message, modules button, quick navigation
+- **Modules** - Browse all 6 learning modules with progress indicators
+- **Flashcards** - Study mode with shuffle and filtering
+- **Profile** - Progress tracker, stats, and account info
+- **Resources** - Trusted external links and support information
+- **About** - Project mission and team info
+
+## Tech Stack
+
+- **React 19** - UI framework
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **Firebase Authentication** - User login
+- **Cloud Firestore** - Database for scores, progress, and question bank
+- **Firebase Hosting** - Production deployment
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
+
+## Firebase Services
+
+- **Firebase Authentication** - Google OAuth and anonymous sign-in
+- **Cloud Firestore** - Stores user progress, scores, mastery levels, and question bank
+- **Firebase Hosting** - Production deployment with automatic PR previews
+
+## Contributing
+
+This project is developed for INFO 442. See the team for contribution guidelines.
+
+## License
+
+Private project - All rights reserved.
