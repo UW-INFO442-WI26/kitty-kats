@@ -1,6 +1,35 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
+import { useAuth } from '../context/AuthContext';
+import AuthModal from './AuthModal';
 
 function Navbar() {
+  const { user, loading, signInWithGoogle, signOutUser } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const handleSignIn = async () => {
+    try {
+      setBusy(true);
+      await signInWithGoogle();
+      setAuthOpen(false);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      setBusy(true);
+      await signOutUser();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const displayName = user?.displayName || user?.email || 'Signed in';
+  const avatarUrl = user?.photoURL || '';
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -26,9 +55,34 @@ function Navbar() {
           
           <Link to="/about" className="nav-link">About</Link>
           
-          <button className="nav-btn-login">Login</button>
+          {loading ? (
+            <button className="nav-btn-login" disabled>Loading...</button>
+          ) : user ? (
+            <div className="nav-user">
+              <div className="nav-avatar" title={displayName}>
+                {avatarUrl ? (
+                  <img className="nav-avatar-img" src={avatarUrl} alt={displayName} />
+                ) : (
+                  <span className="nav-avatar-fallback">{displayName[0]}</span>
+                )}
+              </div>
+              <button className="nav-btn-logout" onClick={handleSignOut} disabled={busy}>
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <button className="nav-btn-login" onClick={() => setAuthOpen(true)}>
+              Sign in
+            </button>
+          )}
         </div>
       </div>
+      <AuthModal
+        open={authOpen}
+        onClose={() => setAuthOpen(false)}
+        onGoogle={handleSignIn}
+        busy={busy}
+      />
     </nav>
   );
 }
