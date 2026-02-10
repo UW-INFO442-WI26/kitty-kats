@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import About from './pages/About'
 import Home from './pages/Home';
+import Modules from './pages/Modules';
 import Quiz from './pages/Quiz';
 import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/modules" element={<Modules />} />
             <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </BrowserRouter>

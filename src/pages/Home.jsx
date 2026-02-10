@@ -30,7 +30,7 @@ function Home() {
           {/* Modules Section - Right Side */}
           <div className="col-12 col-md-7 d-flex justify-content-center justify-content-md-start">
             <Link 
-              to="/quiz" 
+              to="/modules" 
               className="d-block bg-white rounded-4 p-5 text-center text-decoration-none border border-4 border-blush shadow-sm border-purple w-100"
               style={{ maxWidth: '500px', minHeight: '400px', transition: 'all 0.3s ease' }}
             >
