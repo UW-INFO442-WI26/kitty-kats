@@ -1,46 +1,72 @@
 import { Link } from 'react-router';
+import ProgressBar from '../components/ProgressBar';
 
 function Home() {
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '1100px' }}>
-        <div className="row g-4 justify-content-center">
-          {/* Left Column */}
-          <div className="col-12 col-md-5 d-flex justify-content-center justify-content-md-end">
-            <div className="d-flex flex-column gap-4 w-100" style={{ maxWidth: '400px' }}>
-              {/* Streak Section */}
-              <div className="bg-gradient-pink text-white rounded-4 p-4 text-center d-flex flex-column align-items-center justify-content-center shadow" style={{ minHeight: '180px' }}>
-                <span style={{ fontSize: '3.5rem' }}>🔥</span>
-                <span className="fs-4 fw-bold mt-2">You're on a 1 day streak!</span>
-              </div>
-
-              {/* Resources Section */}
-              <div className="bg-deep-plum rounded-4 p-4 text-center shadow" style={{ minHeight: '180px' }}>
-                <h2 className="text-white fw-bold mb-1">Resources</h2>
-                <p className="text-blush mb-3">Trusted information & support</p>
-                <div className="d-flex justify-content-center gap-3">
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">📖</span>
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">🔗</span>
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
+        <div className="row g-4 align-items-stretch">
+          <div className="col-12 col-lg-6">
+            <div className="hero-card hero-card-playful h-100">
+              <div className="d-flex flex-column gap-4">
+                <div>
+                  <span className="badge rounded-pill text-bg-light border border-blush text-deep-plum px-3 py-2">Safe, science-based, teen-friendly</span>
+                </div>
+                <div>
+                  <h1 className="display-5 fw-bold text-deep-plum mb-3">Learning without stigma.</h1>
+                  <p className="fs-5 text-muted mb-4">Accurate, inclusive, age-appropriate sexual education for teens ages 14 to 18. Build knowledge, confidence, and decision-making skills in a respectful space.</p>
+                  <div className="d-flex flex-wrap gap-3">
+                    <Link to="/modules" className="btn btn-primary rounded-pill px-4 py-2">Start Modules</Link>
+                    <Link to="/about" className="btn btn-outline-secondary rounded-pill px-4 py-2">How it works</Link>
+                  </div>
+                </div>
+                <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
+                  <ProgressBar value={28} />
+                  <div className="d-flex justify-content-between text-muted small mt-2">
+                    <span>2 of 7 lessons completed</span>
+                    <span>Keep going</span>
+                  </div>
+                </div>
+                <div className="d-flex flex-wrap gap-2">
+                  <span className="pill-chip">Age-appropriate</span>
+                  <span className="pill-chip">Myth-busting</span>
+                  <span className="pill-chip">Real-life skills</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Modules Section - Right Side */}
-          <div className="col-12 col-md-7 d-flex justify-content-center justify-content-md-start">
-            <Link 
-              to="/modules" 
-              className="d-block bg-white rounded-4 p-5 text-center text-decoration-none border border-4 border-blush shadow-sm border-purple w-100"
-              style={{ maxWidth: '500px', minHeight: '400px', transition: 'all 0.3s ease' }}
-            >
-              <div className="d-flex flex-column align-items-center justify-content-center h-100">
-                <span style={{ fontSize: '5rem' }}>📚</span>
-                <h1 className="display-4 fw-bold text-deep-plum mt-3 mb-2">Modules</h1>
-                <p className="fs-5 text-pink mb-3">Start your learning journey</p>
-                <span className="fs-1 text-primary">→</span>
+          <div className="col-12 col-lg-6">
+            <div className="d-flex flex-column gap-4 h-100">
+              <div className="bg-gradient-pink text-white rounded-4 p-4 text-center d-flex flex-column align-items-center justify-content-center shadow-sm playful-card" style={{ minHeight: '180px' }}>
+                <span style={{ fontSize: '3.5rem' }}>🔥</span>
+                <span className="fs-4 fw-bold mt-2">You're on a 1 day streak!</span>
+                <span className="text-white-50">Come back tomorrow to grow it</span>
               </div>
-            </Link>
+
+              <Link
+                to="/modules"
+                className="d-block bg-white rounded-4 p-4 text-center text-decoration-none border border-4 border-blush shadow-sm border-purple w-100 module-card playful-card"
+                style={{ minHeight: '240px' }}
+              >
+                <div className="d-flex flex-column align-items-center justify-content-center h-100">
+                  <span style={{ fontSize: '4rem' }}>📚</span>
+                  <h2 className="fw-bold text-deep-plum mt-3 mb-2">Modules</h2>
+                  <p className="fs-6 text-pink mb-3">Level up your knowledge</p>
+                  <span className="fs-2 text-primary">→</span>
+                </div>
+              </Link>
+
+              <div className="bg-deep-plum rounded-4 p-4 text-center shadow-sm playful-card">
+                <h2 className="text-white fw-bold mb-1">Resources</h2>
+                <p className="text-blush mb-3">Facts you can trust</p>
+                <div className="d-flex justify-content-center gap-3 flex-wrap">
+                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">🧠</span>
+                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">📖</span>
+                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
