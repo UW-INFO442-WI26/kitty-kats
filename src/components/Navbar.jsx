@@ -7,6 +7,7 @@ function Navbar() {
   const { user, loading, signInWithGoogle, signOutUser } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSignIn = async () => {
     try {
@@ -20,6 +21,8 @@ function Navbar() {
 
   const handleSignOut = async () => {
     try {
+      const confirmed = window.confirm('Are you sure you want to sign out?');
+      if (!confirmed) return;
       setBusy(true);
       await signOutUser();
     } finally {
@@ -36,14 +39,26 @@ function Navbar() {
         <div className="container" style={{ maxWidth: '1100px' }}>
           <Link to="/" className="navbar-brand fw-bold text-deep-plum">Kitty-Kats</Link>
           
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <button
+            className="navbar-toggler"
+            type="button"
+            aria-controls="navbarNav"
+            aria-expanded={menuOpen ? 'true' : 'false'}
+            aria-label="Toggle navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <Link to="/profile" className="nav-link d-flex align-items-center gap-1" title="Profile">
+                <Link
+                  to="/profile"
+                  className="nav-link d-flex align-items-center gap-1"
+                  title="Profile"
+                  onClick={() => setMenuOpen(false)}
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
@@ -64,7 +79,7 @@ function Navbar() {
               </li>
               
               <li className="nav-item">
-                <Link to="/about" className="nav-link">About</Link>
+                <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link>
               </li>
               
               <li className="nav-item">
@@ -84,7 +99,7 @@ function Navbar() {
                     </button>
                   </div>
                 ) : (
-                  <button className="btn btn-primary rounded-pill px-4" onClick={() => setAuthOpen(true)}>
+                  <button className="btn btn-primary rounded-pill px-4" onClick={() => { setAuthOpen(true); setMenuOpen(false); }}>
                     Sign in
                   </button>
                 )}
