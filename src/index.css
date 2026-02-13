@@ -1,66 +1,64 @@
 :root {
-  font-family: 'Segoe UI', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light;
-  color: #5B1E3D;
-  background-color: #ffffff;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --primary-pink: #E84A7A;
+  --secondary-blush: #F7A1BC;
+  --deep-plum: #5B1E3D;
+  --electric-purple: #6B4EFF;
+  --teal-success: #2EC4B6;
 }
 
-* {
-  box-sizing: border-box;
+body {
+  font-family: 'Segoe UI', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: var(--deep-plum);
+  background-color: #ffffff;
 }
 
 a {
-  font-weight: 500;
-  color: #6B4EFF;
-  text-decoration: inherit;
+  color: var(--electric-purple);
+  text-decoration: none;
 }
+
 a:hover {
-  color: #E84A7A;
+  color: var(--primary-pink);
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  min-width: 320px;
-  min-height: 100%;
+.btn-primary {
+  background-color: var(--primary-pink);
+  border-color: var(--primary-pink);
 }
 
-#root {
-  min-height: 100%;
+.btn-primary:hover {
+  background-color: var(--electric-purple);
+  border-color: var(--electric-purple);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.bg-gradient-pink {
+  background: linear-gradient(135deg, var(--primary-pink), var(--electric-purple));
 }
 
-button {
-  border-radius: 12px;
-  border: 2px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: #E84A7A;
-  color: white;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.bg-deep-plum {
+  background-color: var(--deep-plum);
 }
-button:hover {
-  background-color: #6B4EFF;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(107, 78, 255, 0.3);
+
+.bg-gradient-light {
+  background: linear-gradient(135deg, #fff5f7 0%, #fce4ec 50%, #f3e5f5 100%);
 }
-button:focus,
-button:focus-visible {
-  outline: 3px solid #F7A1BC;
-  outline-offset: 2px;
+
+.text-deep-plum {
+  color: var(--deep-plum);
+}
+
+.text-pink {
+  color: var(--primary-pink);
+}
+
+.text-blush {
+  color: var(--secondary-blush);
+}
+
+.border-blush {
+  border-color: var(--secondary-blush) !important;
+}
+
+.border-purple:hover {
+  border-color: var(--electric-purple) !important;
 }
