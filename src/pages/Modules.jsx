@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 
 function Modules() {
   const modules = [
-    { id: 1, title: 'Module 1', path: '/quiz' },
+    { id: 1, title: 'Module 1', path: '/module/1' },
     { id: 2, title: 'Module 2', path: null },
     { id: 3, title: 'Module 3', path: null },
     { id: 4, title: 'Module 4', path: null },

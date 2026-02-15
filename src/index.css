@@ -31,6 +31,18 @@ a:hover {
   border-color: var(--electric-purple);
 }
 
+.btn-outline-secondary {
+  color: var(--deep-plum);
+  border-color: var(--secondary-blush);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  background-color: var(--secondary-blush);
+  color: var(--deep-plum);
+  border-color: var(--secondary-blush);
+}
+
 .bg-gradient-pink {
   background: linear-gradient(135deg, var(--primary-pink), var(--electric-purple));
 }
