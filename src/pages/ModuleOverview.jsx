@@ -1,21 +1,56 @@
 import { Link, useParams } from 'react-router';
+import { modules } from './Modules';
+
+const modulesData = {
+  1: {
+    image: '/img/module-1-anatomy.png',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers sexual anatomy, hygiene, and bodily health.',
+  },
+  2: {
+    image: '/img/module-2-STDs.jpg',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers sexually transmitted infections and diseases, their prevention, and treatment.',
+  },
+  3: {
+    image: '/img/module-3-literacy.jpg',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers digital safety, media literacy, and navigating online spaces responsibly.',
+  },
+  4: {
+    image: '/img/module-4-contraception.png',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers contraception methods, pregnancy prevention, and reproductive choices.',
+  },
+  5: {
+    image: '/img/module-5-consent.jpg',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers consent, healthy relationships, and communicating boundaries.',
+  },
+  6: {
+    image: '/img/module-6-orientation.jpg',
+    questions: 12,
+    progress: 0,
+    description: 'This module covers gender identity, sexual orientation, and the spectrum of human diversity.',
+  },
+};
 
 function ModuleOverview() {
   const { id } = useParams();
+  const moduleId = parseInt(id, 10) || 1;
 
-  const modulesData = {
-    1: {
-      id: 1,
-      title: 'Module 1',
-      image: '/img/module-1-anatomy.png',
-      questions: 12,
-      progress: 0,
-      description: 'This module covers...',
-      quizPath: '/quiz'
-    }
+  const moduleMeta = modules.find((m) => m.id === moduleId) || modules[0];
+  const moduleExtra = modulesData[moduleId] || modulesData[1];
+
+  const module = {
+    ...moduleMeta,
+    ...moduleExtra,
   };
-
-  const module = modulesData[id] || modulesData[1];
 
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
@@ -61,8 +96,9 @@ function ModuleOverview() {
         </div>
 
         <div className="d-flex justify-content-center mt-4">
+          {/* Pass moduleId as a URL param so Quiz knows which module to load */}
           <Link
-            to={module.quizPath}
+            to={`/quiz/${moduleId}`}
             className="btn btn-primary rounded-pill px-5 py-3"
             style={{ fontSize: '1.1rem' }}
           >

@@ -20,7 +20,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/modules" element={<Modules />} />
             <Route path="/module/:id" element={<ModuleOverview />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/quiz/:id" element={<Quiz />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
