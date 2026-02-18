@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
+import ProgressBar from '../components/ProgressBar';
+
 
 function Profile() {
     const { user } = useAuth();
@@ -58,6 +60,37 @@ function Profile() {
                     ) : (
                         '🐱'
                     )}
+            </div>
+            <div className="row g-3 mb-4">
+                <div className="col-4">
+                    <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
+                        <div style={{ fontSize: '2rem' }}>📘</div>
+                        <div className="fs-4 fw-bold text-deep-plum">{completedCount} / {moduleProgress.length}</div>
+                        <div className="text-muted small">Modules Done</div>
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
+                        <div style={{ fontSize: '2rem' }}>📊</div>
+                        <div className="fs-4 fw-bold text-deep-plum">{overallProgress}%</div>
+                        <div className="text-muted small">Overall Progress</div>
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
+                        <div style={{ fontSize: '2rem' }}>🔥</div>
+                        <div className="fs-4 fw-bold text-deep-plum">1</div>
+                        <div className="text-muted small">Day Streak</div>
+                </div>
+            </div>
+            {/* Progress bar */}
+            <div className="bg-white rounded-4 p-4 mb-4 shadow-sm border border-blush">
+                <h2 className="text-deep-plum fw-bold mb-3" style={{ fontSize: '1.1rem' }}>Overall Progress</h2>
+                <ProgressBar value={overallProgress} showLabel={false} />
+                <div className="d-flex justify-content-between text-muted small mt-2">
+                    <span>{completedCount} of {moduleProgress.length} modules completed</span>
+                    <span>{overallProgress}%</span>
+                </div>
             </div>
             <div className="flex-grow-1">
                 <h1 className="text-white fw-bold mb-1" style={{ fontSize: '1.5rem' }}>
