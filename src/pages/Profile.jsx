@@ -119,6 +119,29 @@ function Profile() {
                             <span>{overallProgress}%</span>
                         </div>
                     </div>
+                    <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
+                        <h2 className="text-deep-plum fw-bold mb-4" style={{ fontSize: '1.1rem' }}>Module Progress</h2>
+                        <div className="d-flex flex-column gap-3"></div>
+                            {moduleProgress.map((module) => (
+                                <div key={module.id}>
+                                    <div className="d-flex justify-content-between align-items-center mb-1">
+                                        <div className="d-flex align-items-center gap-2">
+                                            <span>{module.badge}</span>
+                                            <span className="fw-semibold text-deep-plum small">{module.title}</span>
+                                        </div>
+                                        <div className="d-flex align-items-center gap-3">
+                                            {module.score !== null && (
+                                                <span className="badge rounded-pill text-bg-light border border-blush text-deep-plum small">
+                                                    Score: {module.score}%
+                                                </span>
+                                            )}
+                                            <span className="text-muted small">{module.progress}%</span>
+                                        </div>
+                                    </div>
+                                    <ProgressBar value={module.progress} showLabel={false} />
+                                </div>
+                            ))}
+            </div>
             </div>
         </div>
     </div>
