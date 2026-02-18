@@ -1,15 +1,17 @@
 import { Link } from 'react-router';
 
-function Modules() {
-  const modules = [
-    { id: 1, title: 'Module 1', path: '/module/1' },
-    { id: 2, title: 'Module 2', path: null },
-    { id: 3, title: 'Module 3', path: null },
-    { id: 4, title: 'Module 4', path: null },
-    { id: 5, title: 'Module 5', path: null },
-    { id: 6, title: 'Module 6', path: null },
-  ];
+const modules = [
+  { id: 1, title: 'Sexual Anatomy and Hygiene', path: '/module/1' },
+  { id: 2, title: 'STIs and STDs', path: '/module/2' },
+  { id: 3, title: 'Digital Safety and Media Literacy', path: '/module/3' },
+  { id: 4, title: 'Contraception and Pregnancy Prevention', path: '/module/4' },
+  { id: 5, title: 'Consent & Healthy Relationships', path: '/module/5' },
+  { id: 6, title: 'Gender and Sexual Orientation', path: '/module/6' },
+];
 
+export { modules };
+
+function Modules() {
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '900px' }}>
