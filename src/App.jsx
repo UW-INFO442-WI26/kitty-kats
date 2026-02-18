@@ -6,6 +6,8 @@ import ModuleOverview from './pages/ModuleOverview';
 import Quiz from './pages/Quiz';
 import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
+import Profile from './pages/Profile';
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
             <Route path="/modules" element={<Modules />} />
             <Route path="/module/:id" element={<ModuleOverview />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
