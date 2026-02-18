@@ -57,16 +57,22 @@ function Home() {
                 </div>
               </Link>
 
-              <div className="bg-deep-plum rounded-4 p-4 text-center shadow-sm playful-card">
-                <h2 className="text-white fw-bold mb-1">Resources</h2>
-                <p className="text-blush mb-3">Facts you can trust</p>
-                <div className="d-flex justify-content-center gap-3 flex-wrap">
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">🧠</span>
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">📖</span>
-                  <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
+              <Link
+                to="/resources"
+                className="module-card"
+              >
+                <div className="bg-deep-plum rounded-4 p-4 text-center shadow-sm playful-card">
+                  <h2 className="text-white fw-bold mb-1">Resources</h2>
+                  <p className="text-blush mb-3">Facts you can trust</p>
+                  <div className="d-flex justify-content-center gap-3 flex-wrap">
+                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">🧠</span>
+                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">📖</span>
+                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
+                  </div>
                 </div>
+                </Link>
               </div>
-            </div>
+              
           </div>
         </div>
       </div>
