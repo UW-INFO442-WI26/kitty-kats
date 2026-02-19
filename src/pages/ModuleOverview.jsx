@@ -1,56 +1,61 @@
 import { Link, useParams } from 'react-router';
+import { useState, useEffect } from 'react';
 import { modules } from './Modules';
+import { useAuth } from '../context/AuthContext';
+import { loadModuleMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
+import ProgressBar from '../components/ProgressBar';
 
 const modulesData = {
   1: {
     image: '/img/module-1-anatomy.png',
-    questions: 12,
-    progress: 0,
     description: 'This module covers sexual anatomy, hygiene, and bodily health.',
   },
   2: {
     image: '/img/module-2-STDs.jpg',
-    questions: 12,
-    progress: 0,
     description: 'This module covers sexually transmitted infections and diseases, their prevention, and treatment.',
   },
   3: {
     image: '/img/module-3-literacy.jpg',
-    questions: 12,
-    progress: 0,
     description: 'This module covers digital safety, media literacy, and navigating online spaces responsibly.',
   },
   4: {
     image: '/img/module-4-contraception.png',
-    questions: 12,
-    progress: 0,
     description: 'This module covers contraception methods, pregnancy prevention, and reproductive choices.',
   },
   5: {
     image: '/img/module-5-consent.jpg',
-    questions: 12,
-    progress: 0,
     description: 'This module covers consent, healthy relationships, and communicating boundaries.',
   },
   6: {
     image: '/img/module-6-orientation.jpg',
-    questions: 12,
-    progress: 0,
     description: 'This module covers gender identity, sexual orientation, and the spectrum of human diversity.',
   },
 };
 
 function ModuleOverview() {
-  const { id } = useParams();
+  const { id }   = useParams();
+  const { user } = useAuth();
   const moduleId = parseInt(id, 10) || 1;
 
-  const moduleMeta = modules.find((m) => m.id === moduleId) || modules[0];
+  const moduleMeta  = modules.find((m) => m.id === moduleId) || modules[0];
   const moduleExtra = modulesData[moduleId] || modulesData[1];
+  const module      = { ...moduleMeta, ...moduleExtra };
 
-  const module = {
-    ...moduleMeta,
-    ...moduleExtra,
-  };
+  const [mastery, setMastery]   = useState(null);   // null = loading
+  const [loading, setLoading]   = useState(true);
+
+  useEffect(() => {
+    async function fetchMastery() {
+      if (!user) { setLoading(false); return; }
+      const data = await loadModuleMastery(user.uid, moduleId);
+      setMastery(data ? data.mastery : 0);
+      setLoading(false);
+    }
+    fetchMastery();
+  }, [user, moduleId]);
+
+  const masteryPct = mastery ?? 0;
+  const isMastered = masteryPct >= MASTERY_THRESHOLD;
 
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
@@ -75,34 +80,51 @@ function ModuleOverview() {
               {module.title}
             </h1>
           </div>
-          <div className="col-12 col-md-5 d-flex justify-content-end">
-            <div className="d-flex gap-4 align-items-start">
-              <div className="text-start">
-                <p className="text-muted small mb-1">Questions</p>
-                <p className="fs-4 fw-bold text-deep-plum mb-0">{module.questions}</p>
+
+          {/* Mastery badge (replaces the old questions/progress stats) */}
+          <div className="col-12 col-md-5 d-flex justify-content-md-end">
+            {loading ? (
+              <span className="text-muted small">Loading mastery…</span>
+            ) : (
+              <div className="text-center">
+                {isMastered ? (
+                  <span className="badge rounded-pill fs-6 px-4 py-2 text-bg-success">
+                    🏆 Mastered
+                  </span>
+                ) : (
+                  <span
+                    className="badge rounded-pill fs-6 px-4 py-2"
+                    style={{ background: 'var(--blush, #f4c2c2)', color: 'var(--deep-plum, #4a0e2e)' }}
+                  >
+                    {masteryPct}% mastery
+                  </span>
+                )}
               </div>
-              <div className="text-start">
-                <p className="text-muted small mb-1">Progress</p>
-                <div className="fs-4 fw-bold text-deep-plum mb-0">{module.progress}%</div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
+        {/* Mastery progress bar */}
+        {!loading && (
+          <div className="mb-4">
+            <ProgressBar value={masteryPct} showLabel={false} />
+            {isMastered && (
+              <p className="text-success small mt-1 mb-0">Module mastered — keep reviewing to stay sharp!</p>
+            )}
+          </div>
+        )}
+
         <div className="mb-5">
-          <p className="fs-5 text-muted lh-lg">
-            {module.description}
-          </p>
+          <p className="fs-5 text-muted lh-lg">{module.description}</p>
         </div>
 
         <div className="d-flex justify-content-center mt-4">
-          {/* Pass moduleId as a URL param so Quiz knows which module to load */}
           <Link
             to={`/quiz/${moduleId}`}
             className="btn btn-primary rounded-pill px-5 py-3"
             style={{ fontSize: '1.1rem' }}
           >
-            Start
+            {masteryPct > 0 ? 'Continue Quiz' : 'Start Quiz'}
           </Link>
         </div>
       </div>

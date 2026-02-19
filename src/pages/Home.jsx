@@ -1,7 +1,28 @@
 import { Link } from 'react-router';
+import { useState, useEffect } from 'react';
 import ProgressBar from '../components/ProgressBar';
+import { useAuth } from '../context/AuthContext';
+import { modules } from './Modules';
+import { loadAllMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
 
 function Home() {
+  const { user } = useAuth();
+  const [masteryMap, setMasteryMap] = useState({});
+
+  useEffect(() => {
+    if (!user) return;
+    const ids = modules.map((m) => m.id);
+    loadAllMastery(user.uid, ids).then(setMasteryMap).catch(console.error);
+  }, [user]);
+
+  const masteredCount = modules.filter(
+    (m) => (masteryMap[m.id]?.mastery ?? 0) >= MASTERY_THRESHOLD
+  ).length;
+
+  const overallMastery = Math.round(
+    modules.reduce((sum, m) => sum + (masteryMap[m.id]?.mastery ?? 0), 0) / modules.length
+  );
+
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '1100px' }}>
@@ -20,13 +41,20 @@ function Home() {
                     <Link to="/about" className="btn btn-outline-secondary rounded-pill px-4 py-2">How it works</Link>
                   </div>
                 </div>
+
+                {/* Progress section — mirrors Profile's overall mastery block */}
                 <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
-                  <ProgressBar value={28} />
+                  <ProgressBar value={user ? overallMastery : 0} />
                   <div className="d-flex justify-content-between text-muted small mt-2">
-                    <span>2 of 7 lessons completed</span>
-                    <span>Keep going</span>
+                    <span>
+                      {user
+                        ? `${masteredCount} of ${modules.length} modules mastered`
+                        : 'Sign in to track your progress'}
+                    </span>
+                    <span>{user ? `${overallMastery}%` : '—'}</span>
                   </div>
                 </div>
+
                 <div className="d-flex flex-wrap gap-2">
                   <span className="pill-chip">Age-appropriate</span>
                   <span className="pill-chip">Myth-busting</span>
@@ -57,10 +85,7 @@ function Home() {
                 </div>
               </Link>
 
-              <Link
-                to="/resources"
-                className="module-card"
-              >
+              <Link to="/resources" className="module-card">
                 <div className="bg-deep-plum rounded-4 p-4 text-center shadow-sm playful-card">
                   <h2 className="text-white fw-bold mb-1">Resources</h2>
                   <p className="text-blush mb-3">Facts you can trust</p>
@@ -70,9 +95,8 @@ function Home() {
                     <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
                   </div>
                 </div>
-                </Link>
-              </div>
-              
+              </Link>
+            </div>
           </div>
         </div>
       </div>
