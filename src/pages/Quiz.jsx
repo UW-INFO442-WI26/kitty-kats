@@ -14,7 +14,7 @@ import {
 
 function Quiz() {
   const { id } = useParams();
-  const { user, loading: authLoading } = useAuth(); // ← wait for auth to resolve
+  const { user, loading: authLoading } = useAuth();
   const moduleId = parseInt(id, 10) || 1;
 
   const moduleMeta = modules.find((m) => m.id === moduleId) || modules[0];
@@ -26,18 +26,14 @@ function Quiz() {
   const [submitted, setSubmitted]               = useState(false);
   const [hasBeenWrong, setHasBeenWrong]         = useState(false);
 
-  // Mastery state
   const [rawScore, setRawScore]                 = useState(0);
   const [baseRawScore, setBaseRawScore]         = useState(0);
   const [masteryPct, setMasteryPct]             = useState(0);
   const [pointValues, setPointValues]           = useState({ perCorrect: 10, perMiss: -2 });
   const [masteryLoaded, setMasteryLoaded]       = useState(false);
 
-  // Wait for auth to finish resolving before fetching questions.
-  // This prevents a fetch as an unauthenticated user when Firestore
-  // rules require auth, which would silently hang or error.
   useEffect(() => {
-    if (authLoading) return; // auth not ready yet — wait
+    if (authLoading) return;
 
     async function fetchData() {
       setLoading(true);
@@ -75,7 +71,6 @@ function Quiz() {
     fetchData();
   }, [authLoading, moduleId, moduleMeta.title, user]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Whenever rawScore changes, update display and persist
   useEffect(() => {
     if (!masteryLoaded || questions.length === 0) return;
     const combined = baseRawScore + rawScore;
@@ -98,8 +93,6 @@ function Quiz() {
       setRawScore((prev) => prev + pointValues.perCorrect);
     } else {
       setHasBeenWrong(true);
-      // Floor the session rawScore at the negative of baseRawScore so
-      // combined (base + session) can never go below 0 in the DB.
       setRawScore((prev) => Math.max(prev + pointValues.perMiss, -baseRawScore));
     }
     setSubmitted(true);
@@ -109,7 +102,10 @@ function Quiz() {
     setSelectedIndex(null);
     setSubmitted(false);
     setHasBeenWrong(false);
-    setCurrentQuestionIndex((prev) => prev + 1);
+    // Loop back to the first question instead of showing a completion screen
+    setCurrentQuestionIndex((prev) =>
+      prev + 1 >= questions.length ? 0 : prev + 1
+    );
   }
 
   if (authLoading || loading) {
@@ -125,35 +121,6 @@ function Quiz() {
       <div className="min-vh-100 bg-gradient-light py-5 d-flex flex-column align-items-center justify-content-center gap-3">
         <p className="fs-4 text-deep-plum">No questions found for "{moduleMeta.title}".</p>
         <Link to={`/module/${moduleId}`} className="btn btn-outline-secondary rounded-pill px-4">
-          ← Back to Module
-        </Link>
-      </div>
-    );
-  }
-
-  if (currentQuestionIndex >= questions.length) {
-    return (
-      <div className="min-vh-100 bg-gradient-light py-5 d-flex flex-column align-items-center justify-content-center gap-4">
-        <h2 className="text-deep-plum fw-bold fs-2">Quiz Complete! 🎉</h2>
-        <p className="text-muted fs-5">You've answered all {questions.length} questions.</p>
-
-        <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-center" style={{ minWidth: 280 }}>
-          <p className="text-muted small mb-1">Module Mastery</p>
-          <div className="fs-2 fw-bold text-deep-plum mb-2">{masteryPct}%</div>
-          <div className="progress rounded-pill" style={{ height: 10 }}>
-            <div
-              className="progress-bar bg-deep-plum"
-              style={{ width: `${masteryPct}%` }}
-            />
-          </div>
-          {masteryPct >= MASTERY_THRESHOLD ? (
-            <p className="text-success fw-semibold mt-2 mb-0">🏆 Mastered!</p>
-          ) : (
-            <p className="text-muted small mt-2 mb-0">Keep going!</p>
-          )}
-        </div>
-
-        <Link to={`/module/${moduleId}`} className="btn btn-primary rounded-pill px-5 py-3">
           ← Back to Module
         </Link>
       </div>
@@ -183,6 +150,7 @@ function Quiz() {
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '1100px' }}>
 
+        {/* Mastery progress bar */}
         <div className="mb-4 bg-white rounded-4 p-3 shadow-sm border border-blush d-flex align-items-center gap-3">
           <span className="text-deep-plum fw-semibold small" style={{ whiteSpace: 'nowrap' }}>
             Mastery
@@ -203,15 +171,13 @@ function Quiz() {
 
         <div className="row g-4 justify-content-center align-items-stretch">
 
+          {/* Question card — no counter */}
           <div className="col-12 col-md-5 d-flex justify-content-center justify-content-md-end">
             <div
               className="bg-gradient-pink text-white rounded-4 p-4 d-flex flex-column justify-content-between shadow w-100"
               style={{ maxWidth: '400px', minHeight: '400px' }}
             >
               <div>
-                <h2 className="fs-5 mb-3 opacity-75">
-                  Question {currentQuestionIndex + 1} / {questions.length}
-                </h2>
                 <p className="fs-4 fw-bold mb-0">{currentQuestion.question}</p>
               </div>
 
@@ -228,6 +194,7 @@ function Quiz() {
             </div>
           </div>
 
+          {/* Answers */}
           <div className="col-12 col-md-7 d-flex justify-content-center justify-content-md-start">
             <div
               className="d-flex flex-column w-100"
@@ -283,11 +250,10 @@ function Quiz() {
                     className="btn btn-primary rounded-pill px-4 py-2 ms-auto"
                     onClick={handleNext}
                   >
-                    {currentQuestionIndex < questions.length - 1 ? 'Next →' : 'Finish Quiz'}
+                    Next →
                   </button>
                 )}
               </div>
-
             </div>
           </div>
 
