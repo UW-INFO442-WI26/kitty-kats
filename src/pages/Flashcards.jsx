@@ -44,7 +44,7 @@ function Flashcards() {
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '1100px' }}>
         <div className="d-flex justify-content-start mb-4">
-          <Link to="/Home" className="btn btn-outline-secondary rounded-pill px-4 py-2">
+          <Link to="/" className="btn btn-outline-secondary rounded-pill px-4 py-2">
             ← Back to Home
           </Link>
         </div>
