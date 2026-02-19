@@ -8,6 +8,8 @@ function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [learnOpen, setLearnOpen] = useState(false);
+
 
   const handleSignIn = async () => {
     try {
@@ -66,6 +68,47 @@ function Navbar() {
                   <span className="d-lg-none">Profile</span>
                 </Link>
               </li>
+              <li
+                className={`nav-item dropdown ${learnOpen ? 'show' : ''}`}
+                onMouseEnter={() => setLearnOpen(true)}     // hover on desktop
+                onMouseLeave={() => setLearnOpen(false)}
+              >
+                <button
+                  className="nav-link dropdown-toggle btn btn-link"
+                  aria-expanded={learnOpen ? 'true' : 'false'}
+                  onClick={() => setLearnOpen((o) => !o)}   // tap on mobile
+                >
+                  Learn
+                </button>
+
+                <ul className={`dropdown-menu ${learnOpen ? 'show' : ''}`}>
+                  <li>
+                    <Link
+                      to="/modules"
+                      className="dropdown-item"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setLearnOpen(false);
+                      }}
+                    >
+                      Modules
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/flashcards"
+                      className="dropdown-item"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setLearnOpen(false);
+                      }}
+                    >
+                      Flashcards
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
             </ul>
 
             <ul className="navbar-nav align-items-center gap-2">

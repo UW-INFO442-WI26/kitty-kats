@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import Profile from './pages/Profile';
 import Resources from './pages/Resources'; 
+import Flashcards from './pages/Flashcards';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/quiz/:id" element={<Quiz />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/resources" element={<Resources/>} />
+            <Route path="/flashcards" element={<Flashcards/>} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
