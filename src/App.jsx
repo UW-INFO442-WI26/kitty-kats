@@ -26,6 +26,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/resources" element={<Resources/>} />
             <Route path="/flashcards" element={<Flashcards/>} />
+            <Route path="/flashcards/:id" element={<Flashcards/>} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

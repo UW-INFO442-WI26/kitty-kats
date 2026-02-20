@@ -118,13 +118,20 @@ function ModuleOverview() {
           <p className="fs-5 text-muted lh-lg">{module.description}</p>
         </div>
 
-        <div className="d-flex justify-content-center mt-4">
+        <div className="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
           <Link
             to={`/quiz/${moduleId}`}
             className="btn btn-primary rounded-pill px-5 py-3"
             style={{ fontSize: '1.1rem' }}
           >
             {masteryPct > 0 ? 'Continue Quiz' : 'Start Quiz'}
+          </Link>
+          <Link
+            to={`/flashcards/${moduleId}`}
+            className="btn btn-outline-secondary rounded-pill px-5 py-3"
+            style={{ fontSize: '1.1rem' }}
+          >
+            Review Flashcards
           </Link>
         </div>
       </div>
