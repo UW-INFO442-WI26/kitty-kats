@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
 
   const signOutUser = async () => {
     await signOut(auth);
+    window.location.href = '/';
   };
 
   const value = useMemo(
