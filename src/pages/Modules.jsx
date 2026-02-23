@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
+import AuthModal from '../components/AuthModal';
 import { useAuth } from '../context/AuthContext';
 
 const modules = [
@@ -19,8 +21,21 @@ const cardStyle = {
 };
 
 function Modules() {
-  const { user } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
   const isLoggedIn = user && !user.isAnonymous;
+  const [authOpen, setAuthOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+
+  const handleSignIn = async () => {
+    try {
+      setBusy(true);
+      await signInWithGoogle();
+      setAuthOpen(false);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
@@ -29,12 +44,25 @@ function Modules() {
 
         {!isLoggedIn ? (
           <p className="text-center text-muted mb-4 small">
-            <Link to="/login" className="text-deep-plum fw-semibold">Sign in</Link>{' '}
+            <button
+              className="btn btn-link p-0 text-deep-plum fw-semibold"
+              style={{ verticalAlign: 'baseline' }}
+              onClick={() => setAuthOpen(true)}
+            >
+              Sign in
+            </button>{' '}
             to unlock all modules and track your progress.
           </p>
         ) : (
           <div className="mb-5" />
         )}
+
+        <AuthModal
+          open={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onGoogle={handleSignIn}
+          busy={busy}
+        />
 
         {/* Use align-items-stretch so every pair of cards in a row matches height */}
         <div className="row g-4 align-items-stretch">
