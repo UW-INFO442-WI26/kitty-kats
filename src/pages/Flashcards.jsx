@@ -51,6 +51,7 @@ function Flashcards() {
       cards.map((card, index) => {
         const frontText = card.front ?? card.term ?? card.question ?? '';
         const backText = card.back ?? card.definition ?? card.answer ?? '';
+        const link = card.link ?? null;
         return {
           id: card.id || index,
           frontText, // raw text used for seeking via highlightTerm
@@ -63,8 +64,25 @@ function Flashcards() {
           },
           back: {
             html: (
-              <div className="d-flex align-items-center justify-content-center h-100 text-center fs-5 text-muted">
-                {backText}
+              <div className="d-flex flex-column align-items-center h-100 text-center px-2" style={{ justifyContent: 'space-between', paddingTop: '28px', paddingBottom: '18px' }}>
+                <div className="fs-5 text-muted d-flex align-items-center flex-grow-1">{backText}</div>
+                {link ? (
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      fontSize: '0.75rem',
+                      color: '#0d6efd',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    More info!
+                  </a>
+                ) : (
+                  <div style={{ height: '1rem' }} />
+                )}
               </div>
             ),
           },
