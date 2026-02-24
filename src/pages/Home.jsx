@@ -87,15 +87,12 @@ function Home() {
                 </div>
               </Link>
 
-              <Link to="/resources" className="d-block bg-deep-plum rounded-4 p-4 text-center text-decoration-none border border-4 shadow-sm w-100 module-card resources-card playful-card" style={{ minHeight: '180px', borderColor: 'transparent' }}>
-                <div className="d-flex flex-column align-items-center justify-content-center h-100">
-                  <h2 className="text-white fw-bold mb-1">Resources</h2>
-                  <p className="text-blush mb-3">Facts you can trust</p>
-                  <div className="d-flex justify-content-center gap-3 flex-wrap">
-                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">🧠</span>
-                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">📖</span>
-                    <span className="fs-2 bg-white bg-opacity-10 p-2 rounded-3" role="button">💬</span>
-                  </div>
+              <Link to="/resources" className="d-block bg-deep-plum rounded-4 p-4 text-center text-decoration-none border border-4 shadow-sm w-100 module-card resources-card playful-card" style={{ minHeight: '190px', borderColor: 'transparent' }}>
+                <div className="d-flex flex-column align-items-center justify-content-center h-100 gap-2">
+                  <span style={{ fontSize: '3rem' }}>💡</span>
+                  <h2 className="text-white fw-bold mb-0">Resources</h2>
+                  <p className="text-blush mb-1">Facts you can trust, all in one place</p>
+                  <span className="fs-2 text-white mt-1">→</span>
                 </div>
               </Link>
             </div>

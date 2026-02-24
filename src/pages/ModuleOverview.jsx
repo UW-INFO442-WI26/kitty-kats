@@ -65,12 +65,11 @@ function ModuleOverview() {
           ← Back to Modules
         </Link>
 
-        <div className="mb-4 rounded-4 overflow-hidden shadow-sm" style={{ width: '100%', height: '350px' }}>
+        <div className="mb-4 image-frame image-frame-hero" style={{ width: '100%' }}>
           <img
             src={module.image}
             alt={module.title}
-            className="w-100 h-100"
-            style={{ objectFit: 'cover' }}
+            className="image-cover"
           />
         </div>
 

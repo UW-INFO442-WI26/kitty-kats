@@ -5,12 +5,11 @@ function About() {
         <div className="bg-white rounded-4 p-4 shadow-sm border border-blush h-100" style={{ borderColor: 'var(--primary-pink)' }}>
           <div className="row align-items-center g-5">
             <div className="col-12 col-md-6">
-              <div className="rounded-4 overflow-hidden">
+              <div className="image-frame image-frame-about">
                 <img
                   src="/img/about-sex-ed.png"
                   alt="About sexual education"
-                  className="w-100 h-auto"
-                  style={{ objectFit: 'cover' }}
+                  className="image-cover"
                 />
               </div>
             </div>
