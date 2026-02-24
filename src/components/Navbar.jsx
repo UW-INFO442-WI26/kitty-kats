@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
+import GlossarySearch from '../components/GlossarySearch';
 
 function Navbar() {
   const { user, loading, signInWithGoogle, signOutUser } = useAuth();
@@ -76,16 +77,7 @@ function Navbar() {
               </li>
 
               <li className="nav-item">
-                <button
-                  className="btn btn-link nav-link"
-                  title="Search"
-                  style={{ position: 'relative', bottom: '2px' }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="M21 21l-4.35-4.35" />
-                  </svg>
-                </button>
+                <GlossarySearch />
               </li>
 
               <li className="nav-item">
@@ -94,8 +86,8 @@ function Navbar() {
 
               <li
                 className={`nav-item dropdown ${learnOpen ? 'show' : ''}`}
-                onMouseEnter={() => setLearnOpen(true)}
-                onMouseLeave={() => setLearnOpen(false)}
+                onMouseEnter={() => { if (window.innerWidth >= 992) setLearnOpen(true); }}
+                onMouseLeave={() => { if (window.innerWidth >= 992) setLearnOpen(false); }}
               >
                 <button
                   className="nav-link dropdown-toggle btn btn-link"
