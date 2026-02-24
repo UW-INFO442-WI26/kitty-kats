@@ -2,18 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import { defaultDailyPrompts } from '../data/defaultDailyPrompts';
+import { useAuth } from '../context/AuthContext';
+import {
+  getDateKey,
+  loadDailyPromptProgress,
+  saveDailyPromptProgress
+} from '../utils/dailyPromptProgress';
 
-const DAILY_PROMPT_STORAGE_KEY = 'dailyPromptProgress.v1';
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
-function getDateKey(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
 function DailyQuestion() {
+  const { user, loading: authLoading } = useAuth();
   const [answering, setAnswering] = useState(false);
   const [answered, setAnswered] = useState(false);
   const [answer, setAnswer] = useState('');
@@ -29,36 +28,24 @@ function DailyQuestion() {
   const answeredToday = Boolean(answersByDate[todayKey]);
 
   useEffect(() => {
-    try {
-      const savedProgress = localStorage.getItem(DAILY_PROMPT_STORAGE_KEY);
-      if (savedProgress) {
-        const parsed = JSON.parse(savedProgress);
-        setStreak(Number(parsed?.streak) || 0);
-        setLastAnsweredDate(parsed?.lastAnsweredDate || null);
-        setAnswersByDate(parsed?.answersByDate || {});
-      }
-    } catch (error) {
-      console.error('Failed to load daily prompt progress from localStorage:', error);
-    } finally {
+    if (authLoading) return;
+    let ignore = false;
+    setProgressLoaded(false);
+
+    async function hydrateProgress() {
+      const progress = await loadDailyPromptProgress(user?.uid ?? null);
+      if (ignore) return;
+      setStreak(progress.streak);
+      setLastAnsweredDate(progress.lastAnsweredDate);
+      setAnswersByDate(progress.answersByDate);
       setProgressLoaded(true);
     }
-  }, []);
 
-  useEffect(() => {
-    if (!progressLoaded) return;
-    try {
-      localStorage.setItem(
-        DAILY_PROMPT_STORAGE_KEY,
-        JSON.stringify({
-          streak,
-          lastAnsweredDate,
-          answersByDate,
-        })
-      );
-    } catch (error) {
-      console.error('Failed to save daily prompt progress to localStorage:', error);
-    }
-  }, [progressLoaded, streak, lastAnsweredDate, answersByDate]);
+    hydrateProgress();
+    return () => {
+      ignore = true;
+    };
+  }, [authLoading, user]);
 
   useEffect(() => {
     const todayAnswer = answersByDate[todayKey] ?? '';
@@ -96,22 +83,35 @@ function DailyQuestion() {
     return prompts[dayIndex % prompts.length];
   }, [prompts]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!progressLoaded || authLoading) return;
     if (!answer.trim()) return;
     const trimmedAnswer = answer.trim();
     const nextAnswers = { ...answersByDate, [todayKey]: trimmedAnswer };
+    let nextStreak = streak;
+    let nextLastAnsweredDate = lastAnsweredDate;
 
     if (!answeredToday) {
-      const nextStreak = lastAnsweredDate === yesterdayKey ? streak + 1 : 1;
-      setStreak(nextStreak);
-      setLastAnsweredDate(todayKey);
+      nextStreak = lastAnsweredDate === yesterdayKey ? streak + 1 : 1;
+      nextLastAnsweredDate = todayKey;
     }
 
+    setStreak(nextStreak);
+    setLastAnsweredDate(nextLastAnsweredDate);
     setAnswersByDate(nextAnswers);
     setSubmittedAnswer(trimmedAnswer);
     setAnswer('');
     setAnswering(false);
     setAnswered(true);
+
+    await saveDailyPromptProgress(
+      {
+        streak: nextStreak,
+        lastAnsweredDate: nextLastAnsweredDate,
+        answersByDate: nextAnswers,
+      },
+      user?.uid ?? null
+    );
   };
 
   const handleView = () => setAnswering(true);
