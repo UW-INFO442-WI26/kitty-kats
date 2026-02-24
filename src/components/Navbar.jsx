@@ -1,13 +1,26 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
+import GlossarySearch from '../components/GlossarySearch';
 
 function Navbar() {
   const { user, loading, signInWithGoogle, signOutUser } = useAuth();
+  const location = useLocation();
   const [authOpen, setAuthOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [learnOpen, setLearnOpen] = useState(false);
+
+  const isActive = (path) => {
+    const pathname = location.pathname;
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
+  const isLearnActive = isActive('/modules') || isActive('/flashcards') || isActive('/resources') || isActive('/module') || isActive('/quiz');
 
   const handleSignIn = async () => {
     try {
@@ -38,7 +51,7 @@ function Navbar() {
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
         <div className="container" style={{ maxWidth: '1100px' }}>
           <Link to="/" className="navbar-brand fw-bold text-deep-plum">Kitty-Kats</Link>
-          
+
           <button
             className="navbar-toggler"
             type="button"
@@ -51,37 +64,80 @@ function Navbar() {
           </button>
 
           <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item">
+            {/*
+              Single ul with all items.
+              - Desktop: profile sits far left (order-lg-first + me-lg-auto pushes the rest right)
+              - Mobile: everything stacks and centers together (justify-content-center)
+            */}
+            <ul className="navbar-nav w-100 align-items-center gap-2 justify-content-center justify-content-lg-start">
+
+              <li className="nav-item order-lg-first me-lg-auto">
                 <Link
                   to="/profile"
-                  className="nav-link d-flex align-items-center gap-1"
+                  className={`nav-link d-flex align-items-center gap-1 ${isActive('/profile') ? 'active' : ''}`}
                   title="Profile"
                   onClick={() => setMenuOpen(false)}
+                  style={{ position: 'relative', top: '2px' }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
                   </svg>
                   <span className="d-lg-none">Profile</span>
                 </Link>
               </li>
-            </ul>
 
-            <ul className="navbar-nav align-items-center gap-2">
               <li className="nav-item">
-                <button className="btn btn-link nav-link" title="Search">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="M21 21l-4.35-4.35" />
-                  </svg>
+                <GlossarySearch />
+              </li>
+
+              <li className="nav-item">
+                <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>About</Link>
+              </li>
+
+              <li
+                className={`nav-item dropdown ${learnOpen ? 'show' : ''}`}
+                onMouseEnter={() => { if (window.innerWidth >= 992) setLearnOpen(true); }}
+                onMouseLeave={() => { if (window.innerWidth >= 992) setLearnOpen(false); }}
+              >
+                <button
+                  className={`nav-link dropdown-toggle btn btn-link ${isLearnActive ? 'active' : ''}`}
+                  aria-expanded={learnOpen ? 'true' : 'false'}
+                  onClick={() => setLearnOpen((o) => !o)}
+                >
+                  Learn
                 </button>
+                <ul className={`dropdown-menu dropdown-menu-end ${learnOpen ? 'show' : ''}`}>
+                  <li>
+                    <Link
+                      to="/modules"
+                      className={`dropdown-item ${isActive('/modules') || isActive('/module') || isActive('/quiz') ? 'active' : ''}`}
+                      onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
+                    >
+                      Modules
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/flashcards"
+                      className={`dropdown-item ${isActive('/flashcards') ? 'active' : ''}`}
+                      onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
+                    >
+                      Flashcards
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/resources"
+                      className={`dropdown-item ${isActive('/resources') ? 'active' : ''}`}
+                      onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
+                    >
+                      Resources
+                    </Link>
+                  </li>
+                </ul>
               </li>
-              
-              <li className="nav-item">
-                <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link>
-              </li>
-              
+
               <li className="nav-item">
                 {loading ? (
                   <button className="btn btn-primary rounded-pill px-4" disabled>Loading...</button>
@@ -104,6 +160,7 @@ function Navbar() {
                   </button>
                 )}
               </li>
+
             </ul>
           </div>
         </div>
