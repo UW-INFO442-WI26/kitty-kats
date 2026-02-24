@@ -2,30 +2,39 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // 1. Questions: Publicly readable
     match /questions/{questionId} {
       allow read: if true;
       allow write: if false;
     }
 
+    // 2. Flashcards: Publicly readable (ADDED THIS BLOCK)
+    match /flashcards/{cardId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // 3. User Profiles: Only the owner can see/edit their own profile
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
+    // 4. Nested User Data: Covers subcollections under users
     match /users/{userId}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
+    // 5. Mastery Tracking: Restricts access to data matching the User's ID
     match /mastery/{docId} {
-      allow read: if request.auth != null
+      allow read: if request.auth != null 
         && (resource == null || resource.data.userId == request.auth.uid);
 
-      allow create: if request.auth != null
+      allow create: if request.auth != null 
         && request.resource.data.userId == request.auth.uid;
 
-      allow update: if request.auth != null
-        && resource.data.userId == request.auth.uid
+      allow update: if request.auth != null 
+        && resource.data.userId == request.auth.uid 
         && request.resource.data.userId == request.auth.uid;
     }
-
   }
 }
