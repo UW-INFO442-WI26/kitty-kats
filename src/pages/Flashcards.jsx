@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router';
+import { Link, useParams, useLocation } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -6,6 +6,9 @@ import { modules } from './Modules';
 
 function Flashcards() {
   const { id } = useParams();
+  const location = useLocation();
+  const highlightTerm = location.state?.highlightTerm ?? null;
+
   const initialModuleId = useMemo(() => {
     if (!id) return 'all';
     const parsedId = parseInt(id, 10);
@@ -50,6 +53,7 @@ function Flashcards() {
         const backText = card.back ?? card.definition ?? card.answer ?? '';
         return {
           id: card.id || index,
+          frontText, // raw text used for seeking via highlightTerm
           front: {
             html: (
               <div className="d-flex align-items-center justify-content-center h-100 text-center fs-4 fw-bold text-deep-plum">
@@ -73,9 +77,19 @@ function Flashcards() {
   const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
-    setActiveIndex(0);
+    if (deck.length === 0) return;
+
+    if (highlightTerm) {
+      const idx = deck.findIndex(
+        (card) => card.frontText.toLowerCase() === highlightTerm.toLowerCase()
+      );
+      setActiveIndex(idx !== -1 ? idx : 0);
+    } else {
+      setActiveIndex(0);
+    }
+
     setFlipped(false);
-  }, [deck.length, selectedModuleId]);
+  }, [deck, highlightTerm]);
 
   const activeCard = deck[activeIndex];
 
