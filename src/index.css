@@ -32,6 +32,7 @@ a:hover {
 }
 
 .btn-outline-secondary {
+  background-color: white;
   color: var(--deep-plum);
   border-color: var(--secondary-blush);
 }
@@ -41,6 +42,14 @@ a:hover {
   background-color: var(--secondary-blush);
   color: var(--deep-plum);
   border-color: var(--secondary-blush);
+}
+
+.btn-disabled-visible:disabled,
+.btn-disabled-visible[disabled] {
+  background: #f3f3f3;
+  color: #b0b0b0;
+  border-color: #e0e0e0;
+  opacity: 1;
 }
 
 .bg-gradient-pink {
@@ -135,6 +144,15 @@ a:hover {
   box-shadow: 0 14px 30px rgba(91, 30, 61, 0.12);
 }
 
+.resources-card {
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+  border-color: transparent !important;
+}
+
+.resources-card:hover {
+  border-color: var(--primary-pink) !important;
+}
+
 .hover-card {
   transition: transform 250ms ease, box-shadow 250ms ease;
 }
@@ -158,4 +176,36 @@ a:hover {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.25), transparent 65%);
   transform: rotate(-12deg);
   pointer-events: none;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  text-decoration: underline;
+  color: var(--deep-plum) !important;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.dropdown-item.active {
+  font-weight: 700;
+  text-decoration: underline;
+  color: var(--deep-plum);
+  background-color: transparent;
+}
+
+.dropdown-item:hover {
+  text-decoration: underline;
+}
+
+.nav-link svg {
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.nav-link:hover svg,
+.nav-link.active svg {
+  background: #f3e8ec;
+  color: #4a1e2e;
 }

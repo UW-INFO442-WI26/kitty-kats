@@ -1,15 +1,26 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 import GlossarySearch from '../components/GlossarySearch';
 
 function Navbar() {
   const { user, loading, signInWithGoogle, signOutUser } = useAuth();
+  const location = useLocation();
   const [authOpen, setAuthOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [learnOpen, setLearnOpen] = useState(false);
+
+  const isActive = (path) => {
+    const pathname = location.pathname;
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
+  const isLearnActive = isActive('/modules') || isActive('/flashcards') || isActive('/resources') || isActive('/module') || isActive('/quiz');
 
   const handleSignIn = async () => {
     try {
@@ -63,12 +74,12 @@ function Navbar() {
               <li className="nav-item order-lg-first me-lg-auto">
                 <Link
                   to="/profile"
-                  className="nav-link d-flex align-items-center gap-1"
+                  className={`nav-link d-flex align-items-center gap-1 ${isActive('/profile') ? 'active' : ''}`}
                   title="Profile"
                   onClick={() => setMenuOpen(false)}
                   style={{ position: 'relative', top: '2px' }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
                   </svg>
@@ -81,7 +92,7 @@ function Navbar() {
               </li>
 
               <li className="nav-item">
-                <Link to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</Link>
+                <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>About</Link>
               </li>
 
               <li
@@ -90,7 +101,7 @@ function Navbar() {
                 onMouseLeave={() => { if (window.innerWidth >= 992) setLearnOpen(false); }}
               >
                 <button
-                  className="nav-link dropdown-toggle btn btn-link"
+                  className={`nav-link dropdown-toggle btn btn-link ${isLearnActive ? 'active' : ''}`}
                   aria-expanded={learnOpen ? 'true' : 'false'}
                   onClick={() => setLearnOpen((o) => !o)}
                 >
@@ -100,7 +111,7 @@ function Navbar() {
                   <li>
                     <Link
                       to="/modules"
-                      className="dropdown-item"
+                      className={`dropdown-item ${isActive('/modules') || isActive('/module') || isActive('/quiz') ? 'active' : ''}`}
                       onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
                     >
                       Modules
@@ -109,10 +120,19 @@ function Navbar() {
                   <li>
                     <Link
                       to="/flashcards"
-                      className="dropdown-item"
+                      className={`dropdown-item ${isActive('/flashcards') ? 'active' : ''}`}
                       onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
                     >
                       Flashcards
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/resources"
+                      className={`dropdown-item ${isActive('/resources') ? 'active' : ''}`}
+                      onClick={() => { setMenuOpen(false); setLearnOpen(false); }}
+                    >
+                      Resources
                     </Link>
                   </li>
                 </ul>

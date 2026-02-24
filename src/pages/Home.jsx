@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
 import ProgressBar from '../components/ProgressBar';
+import DailyQuestion from '../components/DailyQuestion';
 import { useAuth } from '../context/AuthContext';
 import { modules } from './Modules';
 import { loadAllMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
@@ -65,11 +66,12 @@ function Home() {
           </div>
 
           <div className="col-12 col-lg-6">
-            <div className="d-flex flex-column gap-4 h-100">
-              <div className="bg-gradient-pink text-white rounded-4 p-4 text-center d-flex flex-column align-items-center justify-content-center shadow-sm playful-card" style={{ minHeight: '180px' }}>
-                <span style={{ fontSize: '3.5rem' }}>🔥</span>
-                <span className="fs-4 fw-bold mt-2">You're on a 1 day streak!</span>
-                <span className="text-white-50">Come back tomorrow to grow it</span>
+            <div className="d-flex flex-column gap-4 justify-content-center h-100"> 
+              <div
+                className="bg-gradient-pink text-white rounded-4 p-4 text-center d-flex flex-column align-items-center justify-content-center shadow-sm playful-card"
+                style={{ minHeight: '180px'}}
+              >
+                <DailyQuestion />
               </div>
 
               <Link
@@ -81,12 +83,12 @@ function Home() {
                   <span style={{ fontSize: '4rem' }}>📚</span>
                   <h2 className="fw-bold text-deep-plum mt-3 mb-2">Modules</h2>
                   <p className="fs-6 text-pink mb-3">Level up your knowledge</p>
-                  <span className="fs-2 text-primary">→</span>
+                  <span className="fs-2" style={{color: 'var(--deep-plum)' }}>→</span> 
                 </div>
               </Link>
 
-              <Link to="/resources" className="module-card">
-                <div className="bg-deep-plum rounded-4 p-4 text-center shadow-sm playful-card">
+              <Link to="/resources" className="d-block bg-deep-plum rounded-4 p-4 text-center text-decoration-none border border-4 shadow-sm w-100 module-card resources-card playful-card" style={{ minHeight: '180px', borderColor: 'transparent' }}>
+                <div className="d-flex flex-column align-items-center justify-content-center h-100">
                   <h2 className="text-white fw-bold mb-1">Resources</h2>
                   <p className="text-blush mb-3">Facts you can trust</p>
                   <div className="d-flex justify-content-center gap-3 flex-wrap">
