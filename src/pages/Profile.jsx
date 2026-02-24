@@ -185,42 +185,51 @@ function Profile() {
           </div>
         </div>
 
-                    {/* Progress bar */}
-                    <div className="bg-white rounded-4 p-4 mb-4 shadow-sm border border-blush">
-                        <h2 className="text-deep-plum fw-bold mb-3" style={{ fontSize: '1.1rem' }}>Overall Progress</h2>
-                        <ProgressBar value={overallProgress} showLabel={false} />
-                        <div className="d-flex justify-content-between text-muted small mt-2">
-                            <span>{completedCount} of {moduleProgress.length} modules completed</span>
-                            <span>{overallProgress}%</span>
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
-                        <h2 className="text-deep-plum fw-bold mb-4" style={{ fontSize: '1.1rem' }}>Module Progress</h2>
-                        <div className="d-flex flex-column gap-3">
-                            {moduleProgress.map((module) => (
-                                <div key={module.id}>
-                                    <div className="d-flex justify-content-between align-items-center mb-1">
-                                        <div className="d-flex align-items-center gap-2">
-                                            <span>{module.badge}</span>
-                                            <span className="fw-semibold text-deep-plum small">{module.title}</span>
-                                        </div>
-                                        <div className="d-flex align-items-center gap-3">
-                                            {module.score !== null && (
-                                                <span className="badge rounded-pill text-bg-light border border-blush text-deep-plum small">
-                                                    Score: {module.score}%
-                                                </span>
-                                            )}
-                                            <span className="text-muted small">{module.progress}%</span>
-                                        </div>
-                                    </div>
-                                    <ProgressBar value={module.progress} showLabel={false} />
-                                </div>
-                            ))}
-            </div>
-            </div>
+        {/* Overall progress bar */}
+        <div className="bg-white rounded-4 p-4 mb-4 shadow-sm border border-blush">
+          <h2 className="text-deep-plum fw-bold mb-3" style={{ fontSize: '1.1rem' }}>Overall Mastery</h2>
+          <ProgressBar value={loadingMastery ? 0 : overallProgress} showLabel={false} />
+          <div className="d-flex justify-content-between text-muted small mt-2">
+            <span>
+              {loadingMastery
+                ? 'Loading…'
+                : `${completedCount} of ${modules.length} modules mastered`}
+            </span>
+            <span>{loadingMastery ? '—' : `${overallProgress}%`}</span>
+          </div>
         </div>
+
+        {/* Per-module progress */}
+        <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
+          <h2 className="text-deep-plum fw-bold mb-4" style={{ fontSize: '1.1rem' }}>Module Mastery</h2>
+          <div className="d-flex flex-column gap-3">
+            {loadingMastery ? (
+              <p className="text-muted small">Loading mastery data…</p>
+            ) : (
+              moduleProgress.map((module) => (
+                <div key={module.id}>
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <div className="d-flex align-items-center gap-2">
+                      <span>{module.badge}</span>
+                      <span className="fw-semibold text-deep-plum small">{module.title}</span>
+                    </div>
+                    <div className="d-flex align-items-center gap-3">
+                      {module.mastery >= MASTERY_THRESHOLD && (
+                        <span className="badge rounded-pill text-bg-success small">Mastered</span>
+                      )}
+                      <span className="text-muted small">{module.mastery}%</span>
+                    </div>
+                  </div>
+                  <ProgressBar value={module.mastery} showLabel={false} />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+      </div>
     </div>
-    );
+  );
 }
 
 export default Profile;
