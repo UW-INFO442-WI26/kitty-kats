@@ -57,15 +57,40 @@ function Flashcards() {
           frontText, // raw text used for seeking via highlightTerm
           front: {
             html: (
-              <div className="d-flex align-items-center justify-content-center h-100 text-center fs-4 fw-bold text-deep-plum">
+              <div
+                className="d-flex align-items-center justify-content-center h-100 text-center fw-bold text-deep-plum"
+                style={{
+                  fontSize: frontText.length > 80 ? 'clamp(0.95rem, 2.5vw, 1.25rem)' : frontText.length > 40 ? 'clamp(1.1rem, 3vw, 1.6rem)' : 'clamp(1.3rem, 4vw, 2rem)',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word',
+                  padding: '16px',
+                }}
+              >
                 {frontText}
               </div>
             ),
           },
           back: {
             html: (
-              <div className="d-flex flex-column align-items-center h-100 text-center px-2" style={{ justifyContent: 'space-between', paddingTop: '28px', paddingBottom: '18px' }}>
-                <div className="fs-5 text-muted d-flex align-items-center flex-grow-1">{backText}</div>
+              <div
+                className="d-flex flex-column align-items-center h-100 w-100 text-center"
+                style={{
+                  justifyContent: 'space-between',
+                  padding: '20px 16px 16px',
+                }}
+              >
+                <div
+                  className="d-flex align-items-center justify-content-center flex-grow-1 text-muted"
+                  style={{
+                    fontSize: backText.length > 150 ? 'clamp(0.8rem, 2vw, 1rem)' : backText.length > 80 ? 'clamp(0.95rem, 2.5vw, 1.15rem)' : 'clamp(1.05rem, 3vw, 1.3rem)',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    overflow: 'hidden',
+                    lineHeight: '1.5',
+                  }}
+                >
+                  {backText}
+                </div>
                 {link ? (
                   <a
                     href={link}
@@ -73,15 +98,17 @@ function Flashcards() {
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                      fontSize: '0.75rem',
+                      fontSize: 'clamp(0.65rem, 2vw, 0.75rem)',
                       color: '#0d6efd',
                       textDecoration: 'underline',
+                      flexShrink: 0,
+                      marginTop: '10px',
                     }}
                   >
-                    More info!
+                    More info →
                   </a>
                 ) : (
-                  <div style={{ height: '1rem' }} />
+                  <div style={{ height: '1rem', flexShrink: 0 }} />
                 )}
               </div>
             ),
@@ -150,11 +177,11 @@ function Flashcards() {
 
         <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
           {loading ? (
-            <div className="d-flex align-items-center justify-content-center" style={{ height: 420 }}>
+            <div className="d-flex align-items-center justify-content-center" style={{ minHeight: 320 }}>
               <p className="fs-4 text-deep-plum">Loading flashcards...</p>
             </div>
           ) : deck.length === 0 ? (
-            <div className="d-flex flex-column align-items-center justify-content-center gap-2" style={{ height: 420 }}>
+            <div className="d-flex flex-column align-items-center justify-content-center gap-2" style={{ minHeight: 320 }}>
               <p className="fs-4 text-deep-plum mb-0">
                 {selectedModule
                   ? `No flashcards found for "${selectedModule.title}".`
@@ -165,10 +192,10 @@ function Flashcards() {
               </Link>
             </div>
           ) : (
-            <div className="d-flex flex-column align-items-center justify-content-center gap-4" style={{ height: 420 }}>
+            <div className="d-flex flex-column align-items-center justify-content-center gap-4">
               <div className="w-100 d-flex align-items-center justify-content-between">
                 <button
-                  className="btn btn-outline-secondary rounded-pill px-4"
+                  className="btn btn-outline-secondary rounded-pill px-3 px-md-4"
                   onClick={() => {
                     setFlipped(false);
                     setActiveIndex((prev) => (prev === 0 ? deck.length - 1 : prev - 1));
@@ -180,7 +207,7 @@ function Flashcards() {
                   {activeIndex + 1} / {deck.length}
                 </div>
                 <button
-                  className="btn btn-outline-secondary rounded-pill px-4"
+                  className="btn btn-outline-secondary rounded-pill px-3 px-md-4"
                   onClick={() => {
                     setFlipped(false);
                     setActiveIndex((prev) => (prev === deck.length - 1 ? 0 : prev + 1));
@@ -195,8 +222,14 @@ function Flashcards() {
                 style={{ cursor: 'pointer' }}
               >
                 <div
-                  className="rounded-4 shadow-sm border border-blush w-100 d-flex align-items-center justify-content-center text-center px-4"
-                  style={{ maxWidth: 640, height: 260, background: flipped ? '#fdecef' : '#ffffff' }}
+                  className="rounded-4 shadow-sm border border-blush w-100 d-flex align-items-center justify-content-center text-center"
+                  style={{
+                    maxWidth: 640,
+                    minHeight: 200,
+                    height: 'clamp(200px, 35vw, 260px)',
+                    background: flipped ? '#fdecef' : '#ffffff',
+                    overflow: 'hidden',
+                  }}
                 >
                   {flipped ? activeCard?.back?.html : activeCard?.front?.html}
                 </div>
