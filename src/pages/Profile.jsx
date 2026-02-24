@@ -1,6 +1,6 @@
-import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import AuthModal from '../components/AuthModal';
 import ProgressBar from '../components/ProgressBar';
 import { modules } from './Modules';
 import { loadAllMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
@@ -8,22 +8,34 @@ import { loadAllMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
 const MODULE_BADGES = ['📘', '🧬', '💻', '💊', '🤝', '🌈'];
 
 function Profile() {
-  const { user, loading: authLoading } = useAuth(); // ← consume auth loading state
+  const { user, loading: authLoading, signInWithGoogle } = useAuth();
 
   const displayName = user?.displayName || 'Anonymous Learner';
   const email       = user?.email       || null;
   const photoURL    = user?.photoURL    || null;
-  const isAnonymous = !user || user.isAnonymous;
+  const isLoggedIn  = user && !user.isAnonymous;
 
-  const [masteryMap, setMasteryMap]       = useState({});
-  const [loadingMastery, setLoadingMastery] = useState(true);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [busy, setBusy]         = useState(false);
+
+  const [masteryMap, setMasteryMap]           = useState({});
+  const [loadingMastery, setLoadingMastery]   = useState(true);
+
+  const handleSignIn = async () => {
+    try {
+      setBusy(true);
+      await signInWithGoogle();
+      setAuthOpen(false);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   useEffect(() => {
-    // Don't do anything until Firebase has resolved who the user is
     if (authLoading) return;
 
     async function fetchMastery() {
-      if (!user) {
+      if (!isLoggedIn) {
         setMasteryMap({});
         setLoadingMastery(false);
         return;
@@ -40,7 +52,7 @@ function Profile() {
     }
 
     fetchMastery();
-  }, [authLoading, user]);
+  }, [authLoading, user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const moduleProgress = modules.map((m, i) => ({
     id:      m.id,
@@ -59,6 +71,13 @@ function Profile() {
   return (
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '900px' }}>
+
+        <AuthModal
+          open={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onGoogle={handleSignIn}
+          busy={busy}
+        />
 
         {/* Header */}
         <div className="bg-deep-plum rounded-4 p-4 mb-4 shadow-sm d-flex align-items-center gap-4 flex-wrap">
@@ -82,12 +101,30 @@ function Profile() {
                 </p>}
           </div>
 
-          {!authLoading && isAnonymous && (
-            <Link to="/login" className="btn btn-outline-light rounded-pill px-3 py-2 small flex-shrink-0">
+          {!authLoading && !isLoggedIn && (
+            <button
+              className="btn btn-outline-light rounded-pill px-3 py-2 small flex-shrink-0"
+              onClick={() => setAuthOpen(true)}
+            >
               Sign in to save progress
-            </Link>
+            </button>
           )}
         </div>
+
+        {/* Guest prompt */}
+        {!authLoading && !isLoggedIn && (
+          <p className="text-center text-muted mb-4 small">
+            You can explore any module freely.{' '}
+            <button
+              className="btn btn-link p-0 text-deep-plum fw-semibold"
+              style={{ verticalAlign: 'baseline' }}
+              onClick={() => setAuthOpen(true)}
+            >
+              Sign in
+            </button>{' '}
+            to save your progress and track mastery.
+          </p>
+        )}
 
         {/* Stats row */}
         <div className="row g-3 mb-4">
