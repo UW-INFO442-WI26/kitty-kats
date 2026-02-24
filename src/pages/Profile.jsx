@@ -196,7 +196,7 @@ function Profile() {
                     </div>
                     <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
                         <h2 className="text-deep-plum fw-bold mb-4" style={{ fontSize: '1.1rem' }}>Module Progress</h2>
-                        <div className="d-flex flex-column gap-3"></div>
+                        <div className="d-flex flex-column gap-3">
                             {moduleProgress.map((module) => (
                                 <div key={module.id}>
                                     <div className="d-flex justify-content-between align-items-center mb-1">
