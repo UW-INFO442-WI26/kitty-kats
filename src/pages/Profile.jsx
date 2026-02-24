@@ -4,6 +4,7 @@ import AuthModal from '../components/AuthModal';
 import ProgressBar from '../components/ProgressBar';
 import { modules } from './Modules';
 import { loadAllMastery, MASTERY_THRESHOLD } from '../utils/masteryUtils';
+import { loadDailyPromptProgress } from '../utils/dailyPromptProgress';
 
 const MODULE_BADGES = ['📘', '🧬', '💻', '💊', '🤝', '🌈'];
 
@@ -20,6 +21,7 @@ function Profile() {
 
   const [masteryMap, setMasteryMap]           = useState({});
   const [loadingMastery, setLoadingMastery]   = useState(true);
+  const [dailyStreak, setDailyStreak]         = useState(0);
 
   const handleSignIn = async () => {
     try {
@@ -30,6 +32,32 @@ function Profile() {
       setBusy(false);
     }
   };
+
+  useEffect(() => {
+    if (authLoading) return;
+    let ignore = false;
+
+    const refreshStreak = async () => {
+      const progress = await loadDailyPromptProgress(user?.uid ?? null);
+      if (!ignore) {
+        setDailyStreak(progress.streak);
+      }
+    };
+
+    refreshStreak();
+
+    if (!user) {
+      window.addEventListener('storage', refreshStreak);
+      return () => {
+        ignore = true;
+        window.removeEventListener('storage', refreshStreak);
+      };
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [authLoading, user]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -151,7 +179,7 @@ function Profile() {
           <div className="col-4">
             <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
               <div style={{ fontSize: '2rem' }}>🔥</div>
-              <div className="fs-4 fw-bold text-deep-plum">1</div>
+              <div className="fs-4 fw-bold text-deep-plum">{dailyStreak}</div>
               <div className="text-muted small">Day Streak</div>
             </div>
           </div>
