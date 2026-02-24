@@ -4,6 +4,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { modules } from './Modules';
 import { useAuth } from '../context/AuthContext';
+import AuthModal from '../components/AuthModal';
 import {
   getPointValues,
   loadModuleMastery,
@@ -14,10 +15,14 @@ import {
 
 function Quiz() {
   const { id } = useParams();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signInWithGoogle } = useAuth();
   const moduleId = parseInt(id, 10) || 1;
 
   const moduleMeta = modules.find((m) => m.id === moduleId) || modules[0];
+  const isLoggedIn = user && !user.isAnonymous;
+
+  const [authOpen, setAuthOpen] = useState(false);
+  const [busy, setBusy]         = useState(false);
 
   const [questions, setQuestions]               = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -31,6 +36,16 @@ function Quiz() {
   const [masteryPct, setMasteryPct]             = useState(0);
   const [pointValues, setPointValues]           = useState({ perCorrect: 10, perMiss: -2 });
   const [masteryLoaded, setMasteryLoaded]       = useState(false);
+
+  const handleSignIn = async () => {
+    try {
+      setBusy(true);
+      await signInWithGoogle();
+      setAuthOpen(false);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   useEffect(() => {
     if (authLoading) return;
@@ -53,7 +68,7 @@ function Quiz() {
         const qCount = questionsData.length || 12;
         setPointValues(getPointValues(qCount));
 
-        if (user) {
+        if (isLoggedIn) {
           const existing = await loadModuleMastery(user.uid, moduleId);
           if (existing) {
             setBaseRawScore(existing.rawScore || 0);
@@ -72,14 +87,11 @@ function Quiz() {
   }, [authLoading, moduleId, moduleMeta.title, user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!masteryLoaded || questions.length === 0) return;
+    if (!masteryLoaded || questions.length === 0 || !isLoggedIn) return;
     const combined = baseRawScore + rawScore;
     const newMastery = scoreToMastery(combined);
     setMasteryPct(newMastery);
-
-    if (user) {
-      saveModuleMastery(user.uid, moduleId, combined, questions.length).catch(console.error);
-    }
+    saveModuleMastery(user.uid, moduleId, combined, questions.length).catch(console.error);
   }, [rawScore]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleSelect(index) {
@@ -102,7 +114,6 @@ function Quiz() {
     setSelectedIndex(null);
     setSubmitted(false);
     setHasBeenWrong(false);
-    // Loop back to the first question instead of showing a completion screen
     setCurrentQuestionIndex((prev) =>
       prev + 1 >= questions.length ? 0 : prev + 1
     );
@@ -150,28 +161,51 @@ function Quiz() {
     <div className="min-vh-100 bg-gradient-light py-5">
       <div className="container" style={{ maxWidth: '1100px' }}>
 
-        {/* Mastery progress bar */}
-        <div className="mb-4 bg-white rounded-4 p-3 shadow-sm border border-blush d-flex align-items-center gap-3">
-          <span className="text-deep-plum fw-semibold small" style={{ whiteSpace: 'nowrap' }}>
-            Mastery
-          </span>
-          <div className="progress rounded-pill flex-grow-1" style={{ height: 10 }}>
-            <div
-              className="progress-bar bg-deep-plum"
-              style={{ width: `${masteryPct}%`, transition: 'width 0.4s ease' }}
-            />
+        <AuthModal
+          open={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onGoogle={handleSignIn}
+          busy={busy}
+        />
+
+        {/* Mastery bar for logged-in users; sign-in prompt for guests */}
+        {isLoggedIn ? (
+          <div className="mb-4 bg-white rounded-4 p-3 shadow-sm border border-blush d-flex align-items-center gap-3">
+            <span className="text-deep-plum fw-semibold small" style={{ whiteSpace: 'nowrap' }}>
+              Mastery
+            </span>
+            <div className="progress rounded-pill flex-grow-1" style={{ height: 10 }}>
+              <div
+                className="progress-bar bg-deep-plum"
+                style={{ width: `${masteryPct}%`, transition: 'width 0.4s ease' }}
+              />
+            </div>
+            <span className="fw-bold text-deep-plum small" style={{ whiteSpace: 'nowrap' }}>
+              {masteryPct}%
+            </span>
+            {masteryPct >= MASTERY_THRESHOLD && (
+              <span className="badge rounded-pill text-bg-success ms-1">Mastered 🏆</span>
+            )}
           </div>
-          <span className="fw-bold text-deep-plum small" style={{ whiteSpace: 'nowrap' }}>
-            {masteryPct}%
-          </span>
-          {masteryPct >= MASTERY_THRESHOLD && (
-            <span className="badge rounded-pill text-bg-success ms-1">Mastered 🏆</span>
-          )}
-        </div>
+        ) : (
+          <div className="mb-4 bg-white rounded-4 p-3 shadow-sm border border-blush d-flex align-items-center gap-3">
+            <span className="text-muted small">
+              🔒{' '}
+              <button
+                className="btn btn-link p-0 text-deep-plum fw-semibold"
+                style={{ verticalAlign: 'baseline' }}
+                onClick={() => setAuthOpen(true)}
+              >
+                Sign in
+              </button>{' '}
+              to track your mastery and save progress.
+            </span>
+          </div>
+        )}
 
         <div className="row g-4 justify-content-center align-items-stretch">
 
-          {/* Question card — no counter */}
+          {/* Question card */}
           <div className="col-12 col-md-5 d-flex justify-content-center justify-content-md-end">
             <div
               className="bg-gradient-pink text-white rounded-4 p-4 d-flex flex-column justify-content-between shadow w-100"
