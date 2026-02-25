@@ -35,7 +35,7 @@ function Home() {
                   <span className="badge rounded-pill text-bg-light border border-blush text-deep-plum px-3 py-2">Safe, science-based, teen-friendly</span>
                 </div>
                 <div>
-                  <h1 className="display-5 fw-bold text-deep-plum mb-3">Learning without stigma.</h1>
+                  <h1 className="display-5 fw-bold text-deep-plum mb-3">Learning without stigma</h1>
                   <p className="fs-5 text-muted mb-4">Accurate, inclusive, age-appropriate sexual education for teens ages 14 to 18. Build knowledge, confidence, and decision-making skills in a respectful space.</p>
                   <div className="d-flex flex-wrap gap-3">
                     <Link to="/modules" className="btn btn-primary rounded-pill px-4 py-2">Start Modules</Link>

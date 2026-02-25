@@ -50,7 +50,12 @@ function Navbar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
         <div className="container" style={{ maxWidth: '1100px' }}>
-          <Link to="/" className="navbar-brand fw-bold text-deep-plum">Kitty-Kats</Link>
+          <img
+                  src="/img/logo.png"
+                  alt="Sex-Ed Center Logo"
+                  style={{width: 48, height: 48}}
+                />
+          <Link to="/" className="navbar-brand fw-bold text-deep-plum">Sex-Ed Center</Link>
 
           <button
             className="navbar-toggler"
