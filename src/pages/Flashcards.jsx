@@ -82,7 +82,7 @@ function Flashcards() {
                 <div
                   className="d-flex align-items-center justify-content-center flex-grow-1 text-muted"
                   style={{
-                    fontSize: backText.length > 150 ? 'clamp(0.8rem, 2vw, 1rem)' : backText.length > 80 ? 'clamp(0.95rem, 2.5vw, 1.15rem)' : 'clamp(1.05rem, 3vw, 1.3rem)',
+                    fontSize: backText.length > 150 ? 'clamp(0.7rem, 2vw, 1rem)' : backText.length > 80 ? 'clamp(0.95rem, 2.5vw, 1.15rem)' : 'clamp(1.05rem, 3vw, 1.3rem)',
                     wordBreak: 'break-word',
                     overflowWrap: 'break-word',
                     overflow: 'hidden',
@@ -98,7 +98,7 @@ function Flashcards() {
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                      fontSize: 'clamp(0.65rem, 2vw, 0.75rem)',
+                      fontSize: 'clamp(0.675rem, 2vw, 1rem)',
                       color: '#0d6efd',
                       textDecoration: 'underline',
                       flexShrink: 0,
