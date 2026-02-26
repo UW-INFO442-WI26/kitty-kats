@@ -21,7 +21,7 @@ function Resources() {
                 Our group worked hard to put together a thoughtful and reliable set of information, but topics like sexual literacy, health, and education are always growing and changing. Because of that, we wanted to share some extra resources to help you keep learning and exploring if you’d like. These sources are trustworthy and relevant, and we hope you can use them as a reference, a deeper dive, or simply something to come back to whenever you need support or information.
               </p>
               <p className="text-muted lh-lg">
-               Whether you’re looking to learn more, find support, or get guidance from trusted professionals, these resources are here for you. We chose sources that reflect our commitment to accurate, inclusive, and stigma-free education, so you can feel confident exploring topics at your own pace. Whether you’re doing a deeper dive or just looking for a quick answer, we hope these tools help you feel more informed and supported along the way.
+               Whether you're looking to learn more, find support, or get guidance from trusted professionals, these resources are here for you. We chose sources that reflect our commitment to accurate, inclusive, and stigma-free education, so you can feel confident exploring topics at your own pace. Whether you’re doing a deeper dive or just looking for a quick answer, we hope these tools help you feel more informed and supported along the way.
               </p>
             </div>
           </div>
@@ -30,7 +30,7 @@ function Resources() {
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">Planned Parenthood</h4>
                 <p className="text-muted mb-3">Comprehensive sexual health information, including contraception, STD testing, and reproductive rights.</p>
-                <a href="https://www.plannedparenthood.org/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://www.plannedparenthood.org/learn/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
               </div>
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">Sex, Etc.</h4>

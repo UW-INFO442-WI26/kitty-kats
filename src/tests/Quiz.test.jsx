@@ -115,7 +115,7 @@ describe('Quiz page', () => {
     );
   });
 
-  it('shows Incorrect feedback when wrong answer is submitted', async () => {
+  it('shows Incorrect when wrong answer is submitted', async () => {
     renderQuiz();
     await waitFor(() => screen.getByText('HIV'));
     fireEvent.click(screen.getByText('HIV'));
