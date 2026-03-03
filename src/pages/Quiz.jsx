@@ -212,6 +212,7 @@ function Quiz() {
               style={{ maxWidth: '400px', minHeight: '400px' }}
             >
               <div>
+                <p className="text-white-50 small mb-2 fw-semibold">{moduleMeta.title}</p>
                 <p className="fs-4 fw-bold mb-0">{currentQuestion.question}</p>
               </div>
 
