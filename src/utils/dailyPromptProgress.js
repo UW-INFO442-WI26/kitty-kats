@@ -2,6 +2,7 @@ import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export const DAILY_PROMPT_STORAGE_KEY = 'dailyPromptProgress.v1';
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 const DAILY_PROMPT_PROGRESS_DEFAULTS = {
   streak: 0,
@@ -13,6 +14,38 @@ const hasMeaningfulProgress = (progress) =>
   (progress?.streak ?? 0) > 0 ||
   Boolean(progress?.lastAnsweredDate) ||
   Object.keys(progress?.answersByDate ?? {}).length > 0;
+
+function getDailyPromptStorageKey(userId = null) {
+  return userId ? `${DAILY_PROMPT_STORAGE_KEY}.${userId}` : DAILY_PROMPT_STORAGE_KEY;
+}
+
+function applyStreakRules(progress) {
+  const normalized = normalizeProgress(progress);
+  const todayKey = getDateKey(new Date());
+  const yesterdayKey = getDateKey(new Date(Date.now() - DAY_IN_MS));
+
+  if (!normalized.lastAnsweredDate) {
+    return { ...normalized, streak: 0 };
+  }
+
+  if (normalized.lastAnsweredDate !== todayKey && normalized.lastAnsweredDate !== yesterdayKey) {
+    return { ...normalized, streak: 0 };
+  }
+
+  return normalized;
+}
+
+function hasRecentActivity(progress) {
+  const todayKey = getDateKey(new Date());
+  const yesterdayKey = getDateKey(new Date(Date.now() - DAY_IN_MS));
+
+  return (
+    progress?.lastAnsweredDate === todayKey ||
+    progress?.lastAnsweredDate === yesterdayKey ||
+    Boolean(progress?.answersByDate?.[todayKey]) ||
+    Boolean(progress?.answersByDate?.[yesterdayKey])
+  );
+}
 
 const normalizeProgress = (progress) => ({
   streak: Number(progress?.streak) || 0,
@@ -34,24 +67,31 @@ export function getDateKey(date) {
   return `${year}-${month}-${day}`;
 }
 
-export function loadDailyPromptProgressFromLocal() {
+export function loadDailyPromptProgressFromLocal(userId = null) {
   try {
-    const savedProgress = localStorage.getItem(DAILY_PROMPT_STORAGE_KEY);
+    const userStorageKey = getDailyPromptStorageKey(userId);
+    let savedProgress = localStorage.getItem(userStorageKey);
+
+    if (!savedProgress && userId) {
+      savedProgress = localStorage.getItem(DAILY_PROMPT_STORAGE_KEY);
+    }
+
     if (!savedProgress) {
       return DAILY_PROMPT_PROGRESS_DEFAULTS;
     }
 
     const parsed = JSON.parse(savedProgress);
-    return normalizeProgress(parsed);
+    return applyStreakRules(parsed);
   } catch (error) {
     console.error('Failed to load daily prompt progress from localStorage:', error);
     return DAILY_PROMPT_PROGRESS_DEFAULTS;
   }
 }
 
-export function saveDailyPromptProgressToLocal(progress) {
+export function saveDailyPromptProgressToLocal(progress, userId = null) {
   try {
-    localStorage.setItem(DAILY_PROMPT_STORAGE_KEY, JSON.stringify(progress));
+    const storageKey = getDailyPromptStorageKey(userId);
+    localStorage.setItem(storageKey, JSON.stringify(progress));
   } catch (error) {
     console.error('Failed to save daily prompt progress to localStorage:', error);
   }
@@ -67,13 +107,13 @@ export async function loadDailyPromptProgress(userId = null) {
     const snapshot = await getDoc(docRef);
 
     if (snapshot.exists()) {
-      const normalized = normalizeProgress(snapshot.data());
-      saveDailyPromptProgressToLocal(normalized);
+      const normalized = applyStreakRules(snapshot.data());
+      saveDailyPromptProgressToLocal(normalized, userId);
       return normalized;
     }
 
-    const localProgress = loadDailyPromptProgressFromLocal();
-    if (hasMeaningfulProgress(localProgress)) {
+    const localProgress = loadDailyPromptProgressFromLocal(userId);
+    if (hasMeaningfulProgress(localProgress) && hasRecentActivity(localProgress)) {
       await saveDailyPromptProgress(localProgress, userId);
       return localProgress;
     }
@@ -81,13 +121,13 @@ export async function loadDailyPromptProgress(userId = null) {
     return DAILY_PROMPT_PROGRESS_DEFAULTS;
   } catch (error) {
     console.error('Failed to load daily prompt progress from Firestore:', error);
-    return loadDailyPromptProgressFromLocal();
+    return loadDailyPromptProgressFromLocal(userId);
   }
 }
 
 export async function saveDailyPromptProgress(progress, userId = null) {
-  const normalized = normalizeProgress(progress);
-  saveDailyPromptProgressToLocal(normalized);
+  const normalized = applyStreakRules(progress);
+  saveDailyPromptProgressToLocal(normalized, userId);
 
   if (!userId) return;
 
