@@ -300,7 +300,7 @@ export default function GlossarySearch() {
     navigate(path, { state: { highlightTerm: term } });
   }, [navigate]);
 
-  const showDropdown = open && (fetching || query.trim().length > 0);
+  const showDropdown = open;
 
   return (
     <div className="gs-wrapper" ref={wrapperRef}>
@@ -345,6 +345,19 @@ export default function GlossarySearch() {
             <div className="gs-loading">
               <span className="gs-dot" /><span className="gs-dot" /><span className="gs-dot" />
             </div>
+          ) : !query.trim() ? (
+            <>
+            <div className="gs-section-label">Try searching for</div>
+            {['Puberty', 'Consent', 'Contraception', 'STI', 'Anatomy', 'Pregnancy', 'Boundaries', 'Hormones'].map((term) => (
+              <button
+                key={term}
+                className='gs-result'
+                onClick={() => setQuery(term)}
+              >
+                <div className="gs-term">🔍 {term}</div>
+              </button>
+            ))}
+          </>
           ) : results.length === 0 && query.trim() ? (
             <div className="gs-empty">No flashcards match <strong>"{query}"</strong></div>
           ) : results.length > 0 ? (
