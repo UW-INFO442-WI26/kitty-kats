@@ -348,7 +348,7 @@ export default function GlossarySearch() {
           ) : !query.trim() ? (
             <>
             <div className="gs-section-label">Try searching for</div>
-            {['Puberty', 'Consent', 'Contraception', 'STI', 'Anatomy', 'Pregnancy', 'Boundaries', 'Hormones'].map((term) => (
+            {['Puberty', 'Consent', 'Contraception', 'STI', 'Pregnancy', 'Hormones', 'Tampon', 'Condom'].map((term) => (
               <button
                 key={term}
                 className='gs-result'
