@@ -114,7 +114,7 @@ function Profile() {
             style={{ width: 80, height: 80, background: 'rgba(255,255,255,0.15)', fontSize: '2.5rem' }}
           >
             {photoURL
-              ? <img src={photoURL} alt="profile" className="w-100 h-100" style={{ objectFit: 'cover' }} />
+              ? <img src={photoURL} alt={`${displayName} avatar`} className="w-100 h-100" style={{ objectFit: 'cover' }} />
               : '🐱'}
           </div>
 
@@ -131,6 +131,7 @@ function Profile() {
 
           {!authLoading && !isLoggedIn && (
             <button
+              type="button"
               className="btn btn-outline-light rounded-pill px-3 py-2 small flex-shrink-0"
               onClick={() => setAuthOpen(true)}
             >
@@ -144,6 +145,7 @@ function Profile() {
           <p className="text-center text-muted mb-4 small">
             You can explore any module freely.{' '}
             <button
+              type="button"
               className="btn btn-link p-0 text-deep-plum fw-semibold"
               style={{ verticalAlign: 'baseline' }}
               onClick={() => setAuthOpen(true)}

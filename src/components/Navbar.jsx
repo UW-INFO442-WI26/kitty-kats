@@ -50,16 +50,18 @@ function Navbar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
         <div className="container" style={{ maxWidth: '1100px' }}>
-          <img
-                  src="/img/logo.png"
-                  alt="Sex-Ed Center Logo"
-                  style={{width: 48, height: 48}}
-                />
-          <Link to="/" className="navbar-brand fw-bold text-deep-plum">Sex-Ed Center</Link>
+          <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
+            <img
+              src="/img/logo.png"
+              alt="Sex-Ed Center Logo"
+              style={{ width: 48, height: 48 }}
+            />
+            <span className="navbar-brand fw-bold text-deep-plum mb-0">Sex-Ed Center</span>
+          </Link>
 
           <button
-            className="navbar-toggler"
             type="button"
+            className="navbar-toggler"
             aria-controls="navbarNav"
             aria-expanded={menuOpen ? 'true' : 'false'}
             aria-label="Toggle navigation"
@@ -81,6 +83,7 @@ function Navbar() {
                   to="/profile"
                   className={`nav-link d-flex align-items-center gap-1 ${isActive('/profile') ? 'active' : ''}`}
                   title="Profile"
+                  aria-label="Profile"
                   onClick={() => setMenuOpen(false)}
                   style={{ position: 'relative', top: '2px' }}
                 >
@@ -106,8 +109,10 @@ function Navbar() {
                 onMouseLeave={() => { if (window.innerWidth >= 992) setLearnOpen(false); }}
               >
                 <button
+                  type="button"
                   className={`nav-link dropdown-toggle btn btn-link ${isLearnActive ? 'active' : ''}`}
                   aria-expanded={learnOpen ? 'true' : 'false'}
+                  aria-haspopup="true"
                   onClick={() => setLearnOpen((o) => !o)}
                 >
                   Learn
@@ -145,7 +150,7 @@ function Navbar() {
 
               <li className="nav-item">
                 {loading ? (
-                  <button className="btn btn-primary rounded-pill px-4" disabled>Loading...</button>
+                  <button type="button" className="btn btn-primary rounded-pill px-4" disabled>Loading...</button>
                 ) : user ? (
                   <div className="d-flex align-items-center gap-2">
                     <div title={displayName}>
@@ -155,12 +160,12 @@ function Navbar() {
                         <span className="badge bg-primary rounded-circle p-2">{displayName[0]}</span>
                       )}
                     </div>
-                    <button className="btn btn-outline-secondary btn-sm rounded-pill" onClick={handleSignOut} disabled={busy}>
+                    <button type="button" className="btn btn-outline-secondary btn-sm rounded-pill" onClick={handleSignOut} disabled={busy}>
                       Sign out
                     </button>
                   </div>
                 ) : (
-                  <button className="btn btn-primary rounded-pill px-4" onClick={() => { setAuthOpen(true); setMenuOpen(false); }}>
+                  <button type="button" className="btn btn-primary rounded-pill px-4" onClick={() => { setAuthOpen(true); setMenuOpen(false); }}>
                     Sign in
                   </button>
                 )}

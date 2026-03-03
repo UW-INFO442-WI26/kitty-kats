@@ -45,6 +45,7 @@ function Modules() {
           <p className="text-center text-muted mb-4 small">
             You can explore any module freely.{' '}
             <button
+              type="button"
               className="btn btn-link p-0 text-deep-plum fw-semibold"
               style={{ verticalAlign: 'baseline' }}
               onClick={() => setAuthOpen(true)}

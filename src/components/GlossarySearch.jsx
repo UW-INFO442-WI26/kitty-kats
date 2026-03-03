@@ -316,6 +316,7 @@ export default function GlossarySearch() {
         />
         {query && (
           <button
+            type="button"
             className="gs-clear"
             onClick={() => { setQuery(''); inputRef.current?.focus(); }}
             aria-label="Clear search"
@@ -327,6 +328,7 @@ export default function GlossarySearch() {
 
       {/* magnifier icon */}
       <button
+        type="button"
         className={`gs-icon-btn ${open ? 'active' : ''}`}
         onClick={toggleOpen}
         aria-label={open ? 'Close search' : 'Open search'}
@@ -350,6 +352,7 @@ export default function GlossarySearch() {
             <div className="gs-section-label">Try searching for</div>
             {['Puberty', 'Consent', 'Contraception', 'STI', 'Pregnancy', 'Hormones', 'Tampon', 'Condom'].map((term) => (
               <button
+                type="button"
                 key={term}
                 className='gs-result'
                 onClick={() => setQuery(term)}
@@ -368,6 +371,7 @@ export default function GlossarySearch() {
                 const def  = card.back  ?? card.definition ?? card.answer ?? '';
                 return (
                   <button
+                    type="button"
                     key={card.id}
                     className="gs-result"
                     role="option"

@@ -54,7 +54,8 @@ function Flashcards() {
         const link = card.link ?? null;
         return {
           id: card.id || index,
-          frontText, // raw text used for seeking via highlightTerm
+          frontText,
+          backText,
           front: {
             html: (
               <div
@@ -156,8 +157,11 @@ function Flashcards() {
 
         <div className="d-flex flex-column flex-md-row align-items-md-end gap-3 mb-4">
           <div className="flex-grow-1">
-            <label className="form-label fw-semibold text-deep-plum">Filter by module</label>
+            <label className="form-label fw-semibold text-deep-plum" htmlFor="flashcards-module-filter">
+              Filter by module
+            </label>
             <select
+              id="flashcards-module-filter"
               className="form-select rounded-pill px-4 py-2 border-2 border-blush"
               value={selectedModuleId}
               onChange={(event) => setSelectedModuleId(event.target.value)}
@@ -178,7 +182,9 @@ function Flashcards() {
         <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
           {loading ? (
             <div className="d-flex align-items-center justify-content-center" style={{ minHeight: 320 }}>
-              <p className="fs-4 text-deep-plum">Loading flashcards...</p>
+              <p className="fs-4 text-deep-plum" role="status" aria-live="polite">
+                Loading flashcards...
+              </p>
             </div>
           ) : deck.length === 0 ? (
             <div className="d-flex flex-column align-items-center justify-content-center gap-2" style={{ minHeight: 320 }}>
@@ -195,6 +201,7 @@ function Flashcards() {
             <div className="d-flex flex-column align-items-center justify-content-center gap-4">
               <div className="w-100 d-flex align-items-center justify-content-between">
                 <button
+                  type="button"
                   className="btn btn-outline-secondary rounded-pill px-3 px-md-4"
                   onClick={() => {
                     setFlipped(false);
@@ -207,6 +214,7 @@ function Flashcards() {
                   {activeIndex + 1} / {deck.length}
                 </div>
                 <button
+                  type="button"
                   className="btn btn-outline-secondary rounded-pill px-3 px-md-4"
                   onClick={() => {
                     setFlipped(false);
@@ -217,9 +225,16 @@ function Flashcards() {
                 </button>
               </div>
               <button
+                type="button"
                 className="border-0 bg-transparent w-100 d-flex align-items-center justify-content-center"
                 onClick={() => setFlipped((prev) => !prev)}
                 style={{ cursor: 'pointer' }}
+                aria-pressed={flipped}
+                aria-label={
+                  flipped
+                    ? `Flashcard back. ${activeCard?.backText ?? ''} Activate to show front.`
+                    : `Flashcard front. ${activeCard?.frontText ?? ''} Activate to show back.`
+                }
               >
                 <div
                   className="rounded-4 shadow-sm border border-blush w-100 d-flex align-items-center justify-content-center text-center"

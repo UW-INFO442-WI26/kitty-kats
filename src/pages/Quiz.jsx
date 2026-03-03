@@ -177,6 +177,11 @@ function Quiz() {
             <div className="progress rounded-pill flex-grow-1" style={{ height: 10 }}>
               <div
                 className="progress-bar bg-deep-plum"
+                role="progressbar"
+                aria-label="Mastery progress"
+                aria-valuenow={masteryPct}
+                aria-valuemin={0}
+                aria-valuemax={100}
                 style={{ width: `${masteryPct}%`, transition: 'width 0.4s ease' }}
               />
             </div>
@@ -192,6 +197,7 @@ function Quiz() {
             <span className="text-muted small">
               🔒{' '}
               <button
+                type="button"
                 className="btn btn-link p-0 text-deep-plum fw-semibold"
                 style={{ verticalAlign: 'baseline' }}
                 onClick={() => setAuthOpen(true)}
@@ -238,6 +244,7 @@ function Quiz() {
               <div className="d-flex flex-column gap-3 flex-grow-1">
                 {currentQuestion.answers.map((answer, index) => (
                   <button
+                    type="button"
                     key={index}
                     className={`rounded-4 p-3 text-center border border-2 shadow-sm w-100 transition ${getButtonStyle(index)}`}
                     style={{ cursor: isCorrect ? 'default' : 'pointer' }}
@@ -265,6 +272,8 @@ function Quiz() {
                       color: isCorrect ? '#198754' : '#dc3545',
                       whiteSpace: 'nowrap',
                     }}
+                    role="status"
+                    aria-live="polite"
                   >
                     {isCorrect ? `✅ Correct!` : `❌ Incorrect!`}
                   </span>
@@ -274,6 +283,7 @@ function Quiz() {
 
                 {!isCorrect ? (
                   <button
+                    type="button"
                     className="btn btn-primary rounded-pill px-4 py-2 ms-auto"
                     onClick={handleSubmit}
                     disabled={selectedIndex === null || submitted}
@@ -282,6 +292,7 @@ function Quiz() {
                   </button>
                 ) : (
                   <button
+                    type="button"
                     className="btn btn-primary rounded-pill px-4 py-2 ms-auto"
                     onClick={handleNext}
                   >

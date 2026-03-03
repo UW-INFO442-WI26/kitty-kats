@@ -132,10 +132,12 @@ function DailyQuestion() {
         <div className="w-100 d-flex flex-column" style={{ minHeight: '160px' }}>
           <div className="d-flex align-items-center mb-3">
             <button
+              type="button"
               className="btn btn-link p-0 me-2"
               onClick={handleBack}
               style={{ fontSize: '1.5rem', color: 'white' }}
               title="Back"
+              aria-label="Back"
             >
               ←
             </button>
@@ -155,10 +157,12 @@ function DailyQuestion() {
             onChange={(e) => setAnswer(e.target.value)}
             readOnly={answered}
             style={{ backgroundColor: 'white', color: '#000' }}
+            aria-label="Daily prompt response"
           />
           <div className="d-flex justify-content-center gap-2">
             {!answered ? (
               <button
+                type="button"
                 className={`btn btn-outline-secondary rounded-pill px-4 py-2${!answer.trim() ? ' btn-disabled-visible' : ''}`}
                 onClick={handleSubmit}
                 disabled={!answer.trim()}
@@ -168,6 +172,7 @@ function DailyQuestion() {
             ) : (
               <>
                 <button
+                  type="button"
                   className="btn btn-outline-secondary rounded-pill px-4 py-2"
                   onClick={handleEdit}
                 >
@@ -185,6 +190,7 @@ function DailyQuestion() {
           </span>
           {answeredToday && <span className="text-white-50 mb-3">Come back tomorrow to grow it</span>}
           <button
+            type="button"
             className="btn btn-outline-secondary rounded-pill px-4 py-2 mt-3"
             onClick={answeredToday ? handleView : () => setAnswering(true)}
           >
