@@ -1,6 +1,6 @@
 # Testing Protocol
 
-This document outlines how to manually test key features of Learning Without Stigma, the expected outcomes, and known issues/workarounds.
+This document outlines how to manually test key features, the expected outcomes, and known issues/workarounds.
 
 ## Testing Environment
 
