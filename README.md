@@ -1,34 +1,50 @@
-# Learning Without Stigma
+# Sex-Ed Center
 
 A web app providing stigma-free sexual health education for U.S. high school students through interactive quizzes, flashcards, and scenarios.
 
 **Available at: https://kitty-kats.web.app/**
 
-## About
+## Mission
 
-Learning Without Stigma offers anonymous, judgment-free sexual health education. Students can learn at their own pace, track progress, earn rewards, and access trusted resources—all in a mobile-first experience.
+U.S. high school students often lack a strong understanding of sexual education due to the absence of a standardized curriculum. As a result, social stigma and widespread misconceptions continue to persist. Our project aims to address these gaps by providing an accessible and judgment-free platform that offers accurate and age-appropriate sexual health information. It presents this information through interactive features with fact-based feedback for a more engaging learning experience. This works towards dismantling myths and empowering young people with the knowledge, confidence, and critical thinking skills needed to make informed decisions and support their long-term well-being.
+
+## Group Members
+
+- Amy Chung
+- Florencia Chung
+- Kelis Hightower
+- Connor Lam
+- Alissa Lau
+- Sahra Mohamad
 
 ## Features
 
 ### Core Learning
-- **6 Interactive Modules** - Comprehensive topics with hover-to-flip cards and progress tracking
+- **6 Interactive Modules** - Comprehensive topics with progress tracking
 - **Quiz System** - Module-based quizzes with instant feedback
-- **Flashcards** - Shuffle, filter by module, and flip to reveal answers
+- **Flashcards** - Filter by module, flip to reveal answers, and click to learn more from credible sources
 - **Search & Glossary** - Keyword search across all content
+- **Daily Prompts** - Answer, reflect, and start a streak
 
 ### User Experience
 - **Anonymous Learning** - No personal info required to start
 - **Progress Tracking** - Visual progress bars and stats
-- **Mastery Badges** - Earn badges based on quiz scores
 - **Mobile-First** - Optimized for phones and tablets
 
 ### Pages
 - **Home** - Welcome message, modules button, quick navigation
 - **Modules** - Browse all 6 learning modules with progress indicators
-- **Flashcards** - Study mode with shuffle and filtering
+- **Flashcards** - Study mode with filtering
 - **Profile** - Progress tracker, stats, and account info
 - **Resources** - Trusted external links and support information
 - **About** - Project mission and team info
+
+## User Personas
+
+Our user personas can be found [here](https://github.com/UW-INFO442-WI26/kitty-kats/blob/main/user-personas.pdf)
+
+## Testing Protocols
+Our testing protocols can be found [here](https://github.com/UW-INFO442-WI26/kitty-kats/blob/main/TESTING_PROTOCOL.md) and [here](https://github.com/UW-INFO442-WI26/kitty-kats/blob/main/testing-and-prototype-protocol.pdf)
 
 ## Tech Stack
 
