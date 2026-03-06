@@ -55,7 +55,9 @@ function Modules() {
             to save your progress and track mastery.
           </p>
         ) : (
-          <div className="mb-5" />
+          <p className="text-center text-muted mb-4 small">
+          Track your learning with Mastery points! Mastery will go up if you answer questions correctly, and down if you answer incorrectly.
+          </p>
         )}
 
         <AuthModal
