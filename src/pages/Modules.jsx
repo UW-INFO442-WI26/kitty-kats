@@ -4,12 +4,12 @@ import AuthModal from '../components/AuthModal';
 import { useAuth } from '../context/AuthContext';
 
 const modules = [
-  { id: 1, title: 'Sexual Anatomy and Hygiene', path: '/module/1' },
-  { id: 2, title: 'STIs and STDs', path: '/module/2' },
-  { id: 3, title: 'Digital Safety and Media Literacy', path: '/module/3' },
-  { id: 4, title: 'Contraception and Pregnancy Prevention', path: '/module/4' },
-  { id: 5, title: 'Consent & Healthy Relationships', path: '/module/5' },
-  { id: 6, title: 'Gender and Sexual Orientation', path: '/module/6' },
+  { id: 1, title: 'Sexual Anatomy and Hygiene', path: '/module/1', icon: '📘' },
+  { id: 2, title: 'STIs and STDs', path: '/module/2', icon: '🧬' },
+  { id: 3, title: 'Digital Safety and Media Literacy', path: '/module/3', icon: '💻' },
+  { id: 4, title: 'Contraception and Pregnancy Prevention', path: '/module/4', icon: '💊' },
+  { id: 5, title: 'Consent & Healthy Relationships', path: '/module/5', icon: '🤝' },
+  { id: 6, title: 'Gender and Sexual Orientation', path: '/module/6', icon: '🌈' },
 ];
 
 export { modules };
@@ -72,11 +72,11 @@ function Modules() {
             <div key={module.id} className="col-6 d-flex">
               <Link
                 to={module.path}
-                className="d-flex bg-white rounded-4 p-4 text-center text-decoration-none border border-3 border-blush shadow-sm w-100"
+                className="d-flex bg-white rounded-4 p-4 text-center text-decoration-none border border-3 border-blush shadow-sm border-purple w-100 module-card playful-card"
                 style={cardStyle}
               >
                 <div className="d-flex flex-column align-items-center justify-content-center w-100">
-                  <span style={{ fontSize: '2.5rem' }}>📚</span>
+                  <span style={{ fontSize: '2.5rem' }}>{module.icon}</span>
                   <h2 className="fs-4 fw-bold text-deep-plum mt-2 mb-0">{module.title}</h2>
                 </div>
               </Link>

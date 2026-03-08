@@ -174,9 +174,6 @@ function Flashcards() {
               ))}
             </select>
           </div>
-          <div className="text-muted">
-            {selectedModule ? `Showing ${selectedModule.title}` : 'Showing all flashcards'}
-          </div>
         </div>
 
         <div className="bg-white rounded-4 p-4 shadow-sm border border-blush">
