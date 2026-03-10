@@ -40,7 +40,7 @@ function Resources() {
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">CDC Sexual Health</h4>
                 <p className="text-muted mb-3">Official government resources on sexual health, STD prevention, and healthy relationships.</p>
-                <a href="https://www.cdc.gov/sexualhealth/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://www.cdc.gov/healthy-youth/what-works-in-schools/sexual-health-services.html" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
               </div>
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">The Trevor Project</h4>
