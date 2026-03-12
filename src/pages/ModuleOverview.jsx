@@ -83,7 +83,7 @@ function ModuleOverview() {
           {/* Mastery badge (replaces the old questions/progress stats) */}
           <div className="col-12 col-md-5 d-flex justify-content-md-end">
             {loading ? (
-              <span className="text-muted small">Loading mastery…</span>
+              <span className="text-muted small" role="status">Loading mastery…</span>
             ) : (
               <div className="text-center">
                 {isMastered ? (

@@ -26,10 +26,10 @@ function About() {
                 style={{ minHeight: '500px' }}
               src="https://www.youtube.com/embed/ZvZ2wkqqNsw?si=DwVhIE4U56RSOijp" 
               title="YouTube video player" 
-              frameborder="0" 
+              frameBorder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              referrerpolicy="strict-origin-when-cross-origin" 
-              allowfullscreen>
+              referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen>
               </iframe>
             </div>
         </div>

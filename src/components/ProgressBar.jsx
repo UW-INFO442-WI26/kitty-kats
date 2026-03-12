@@ -17,7 +17,15 @@ function ProgressBar({ value = 0, height = 10, showLabel = true }) {
           <span>{Math.round(clampedValue)}%</span>
         </div>
       ) : null}
-      <div className="progress-track" style={{ height }}>
+      <div
+        className="progress-track"
+        style={{ height }}
+        role="progressbar"
+        aria-valuenow={clampedValue}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Progress"
+      >
         <div className="progress-fill" style={{ width: `${animatedValue}%` }} />
       </div>
     </div>
