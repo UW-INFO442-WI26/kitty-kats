@@ -80,7 +80,7 @@ function Home() {
                 style={{ minHeight: '240px' }}
               >
                 <div className="d-flex flex-column align-items-center justify-content-center h-100">
-                  <span style={{ fontSize: '4rem' }}>📚</span>
+                  <span style={{ fontSize: '4rem' }} aria-hidden="true">📚</span>
                   <h2 className="fw-bold text-deep-plum mt-3 mb-2">Modules</h2>
                   <p className="fs-6 text-pink mb-3">Level up your knowledge</p>
                   <span className="fs-2" style={{color: 'var(--deep-plum)' }}>→</span> 
@@ -89,7 +89,7 @@ function Home() {
 
               <Link to="/resources" className="d-block bg-deep-plum rounded-4 p-4 text-center text-decoration-none border border-4 shadow-sm w-100 module-card resources-card playful-card" style={{ minHeight: '190px', borderColor: 'transparent' }}>
                 <div className="d-flex flex-column align-items-center justify-content-center h-100 gap-2">
-                  <span style={{ fontSize: '3rem' }}>💡</span>
+                  <span style={{ fontSize: '3rem' }} aria-hidden="true">💡</span>
                   <h2 className="text-white fw-bold mb-0">Resources</h2>
                   <p className="text-blush mb-1">Facts you can trust, all in one place</p>
                   <span className="fs-2 text-white mt-1">→</span>

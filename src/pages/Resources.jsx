@@ -30,22 +30,22 @@ function Resources() {
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">Planned Parenthood</h4>
                 <p className="text-muted mb-3">Comprehensive sexual health information, including contraception, STD testing, and reproductive rights.</p>
-                <a href="https://www.plannedparenthood.org/learn/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://www.plannedparenthood.org/learn/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1" aria-label="Visit Planned Parenthood (opens in new tab)">Visit Site</a>
               </div>
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">Sex, Etc.</h4>
                 <p className="text-muted mb-3">A sexual education resource created by teens, for teens, that explores topics like birth control, pregnancy, relationships, and more in a way that feels relatable and easy to understand.</p>
-                <a href="https://sexetc.org/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://sexetc.org/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1" aria-label="Visit Sex, Etc. (opens in new tab)">Visit Site</a>
               </div>
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">CDC Sexual Health</h4>
                 <p className="text-muted mb-3">Official government resources on sexual health, STD prevention, and healthy relationships.</p>
-                <a href="https://www.cdc.gov/healthy-youth/what-works-in-schools/sexual-health-services.html" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://www.cdc.gov/healthy-youth/what-works-in-schools/sexual-health-services.html" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1" aria-label="Visit CDC Sexual Health (opens in new tab)">Visit Site</a>
               </div>
               <div className="bg-white rounded-4 p-4 shadow-sm border border-blush text-decoration-none hover-card">
                 <h4 className="fw-bold text-deep-plum mb-2">The Trevor Project</h4>
                 <p className="text-muted mb-3">Crisis intervention and suicide prevention for LGBTQ youth, including 24/7 support.</p>
-                <a href="https://www.thetrevorproject.org/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1">Visit Site</a>
+                <a href="https://www.thetrevorproject.org/" target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-3 py-1" aria-label="Visit The Trevor Project (opens in new tab)">Visit Site</a>
               </div>
             </div>
           </div>

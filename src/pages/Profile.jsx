@@ -160,7 +160,7 @@ function Profile() {
         <div className="row g-3 mb-4">
           <div className="col-4">
             <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
-              <div style={{ fontSize: '2rem' }}>📘</div>
+              <div style={{ fontSize: '2rem' }} aria-hidden="true">📘</div>
               <div className="fs-4 fw-bold text-deep-plum">
                 {loadingMastery ? '—' : `${completedCount} / ${modules.length}`}
               </div>
@@ -170,7 +170,7 @@ function Profile() {
 
           <div className="col-4">
             <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
-              <div style={{ fontSize: '2rem' }}>📊</div>
+              <div style={{ fontSize: '2rem' }} aria-hidden="true">📊</div>
               <div className="fs-4 fw-bold text-deep-plum">
                 {loadingMastery ? '—' : `${overallProgress}%`}
               </div>
@@ -180,7 +180,7 @@ function Profile() {
 
           <div className="col-4">
             <div className="bg-white rounded-4 p-3 text-center shadow-sm border border-blush h-100">
-              <div style={{ fontSize: '2rem' }}>🔥</div>
+              <div style={{ fontSize: '2rem' }} aria-hidden="true">🔥</div>
               <div className="fs-4 fw-bold text-deep-plum">{dailyStreak}</div>
               <div className="text-muted small">Day Streak</div>
             </div>

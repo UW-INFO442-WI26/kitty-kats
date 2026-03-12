@@ -76,7 +76,7 @@ function Modules() {
                 style={cardStyle}
               >
                 <div className="d-flex flex-column align-items-center justify-content-center w-100">
-                  <span style={{ fontSize: '2.5rem' }}>{module.icon}</span>
+                  <span style={{ fontSize: '2.5rem' }} aria-hidden="true">{module.icon}</span>
                   <h2 className="fs-4 fw-bold text-deep-plum mt-2 mb-0">{module.title}</h2>
                 </div>
               </Link>

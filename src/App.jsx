@@ -17,6 +17,7 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Navbar />
+          <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -28,6 +29,7 @@ function App() {
             <Route path="/flashcards" element={<Flashcards/>} />
             <Route path="/flashcards/:id" element={<Flashcards/>} />
           </Routes>
+          </main>
         </BrowserRouter>
       </AuthProvider>
     </>

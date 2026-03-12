@@ -122,7 +122,7 @@ function Quiz() {
   if (authLoading || loading) {
     return (
       <div className="min-vh-100 bg-gradient-light py-5 d-flex align-items-center justify-content-center">
-        <p className="fs-4 text-deep-plum">Loading questions...</p>
+        <p className="fs-4 text-deep-plum" role="status">Loading questions...</p>
       </div>
     );
   }
@@ -130,7 +130,7 @@ function Quiz() {
   if (questions.length === 0) {
     return (
       <div className="min-vh-100 bg-gradient-light py-5 d-flex flex-column align-items-center justify-content-center gap-3">
-        <p className="fs-4 text-deep-plum">No questions found for "{moduleMeta.title}".</p>
+        <p className="fs-4 text-deep-plum" role="status">No questions found for "{moduleMeta.title}".</p>
         <Link to={`/module/${moduleId}`} className="btn btn-outline-secondary rounded-pill px-4">
           ← Back to Module
         </Link>
